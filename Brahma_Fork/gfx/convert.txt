@@ -1,1 +1,1 @@
-convert -rotate 90 TOP.bmp TOP.bgr
+convert -rotate 90 TOP.png TOP.bgr
