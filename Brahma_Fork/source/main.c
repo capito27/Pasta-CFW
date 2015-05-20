@@ -135,38 +135,7 @@ void drawUI()
 
 	//------------- BOTTOM ------------
 	//Prints a background!
-<<<<<<< HEAD
 	gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0, 0);
-=======
-	drawFillRect(0, 0, 319, 239, 128, 128, 128, screenBottom);
-
-	//Prints the buttons
-	drawFillRect(14, 6, 92, 33, 64, 64, 64, screenBottom); //EXIT
-	drawFillRect(220, 6, 303, 33, 64, 64, 64, screenBottom); //CREDITS
-	drawFillRect(14, 149, 302, 212, 255, 0, 0, screenBottom); //REBOOT
-
-	//Prints the text
-	sprintf(buffer, "    Exit");
-	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 30, 245 - fontDefault.height * 2);
-
-	sprintf(buffer, "  Credits");
-	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 235, 245 - fontDefault.height * 2);
-
-	if (type != 0) //Draws "boot" button only if the system is supported
-	{
-		drawFillRect(14, 68, 302, 131, 0, 204, 0, screenBottom);
-		sprintf(buffer, "      BOOT CFW");
-		gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 108, 240 - fontDefault.height * 6);
-		sprintf(buffer, "Apply patches and reboot!");
-		gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 88, 240 - fontDefault.height * 7);
-	}
-
-	sprintf(buffer, "     REBOOT 3DS");
-	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 110, 240 - fontDefault.height * 11);
-
-	sprintf(buffer, "Reboot without applying any patch");
-	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 65, 240 - fontDefault.height * 12);
->>>>>>> origin/master
 
 	//CREDITS!
 	if (showcredits)
