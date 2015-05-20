@@ -60,7 +60,7 @@ void getSystemVersion()
 			break;
 		case 0x02260000: // 6.1
 			type = '5';
-			systemVersion = "Old 3DS V. 6.1";
+			systemVersion = "Old 3DS V. 6.1 - 6.3";
 			break;
 		case 0x02270400: // 7.0-7.1
 			type = '6';
@@ -80,7 +80,7 @@ void getSystemVersion()
 			break;
 		}
 	}
-	else 
+	else
 	{
 		//-----------> NEW 3DS
 		switch (kversion)
@@ -138,7 +138,7 @@ void drawUI()
 	//Prints the buttons
 	drawFillRect(14, 6, 92, 33, 64, 64, 64, screenBottom); //EXIT
 	drawFillRect(220, 6, 303, 33, 64, 64, 64, screenBottom); //CREDITS
-	drawFillRect(14, 149, 302, 212, 255, 0, 0, screenBottom); //REBOOT 
+	drawFillRect(14, 149, 302, 212, 255, 0, 0, screenBottom); //REBOOT
 
 	//Prints the text
 	sprintf(buffer, "    Exit");
@@ -210,7 +210,7 @@ int main() {
     //Check kernel version first
 	getSystemVersion();
 
-	// If L is held, show UI 
+	// If L is held, show UI
 	if (kHeld & KEY_L)
 	{
 		// Main loop
