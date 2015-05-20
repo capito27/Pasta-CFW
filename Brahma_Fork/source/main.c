@@ -13,7 +13,7 @@
 
 //variables
 char* systemVersion;
-int type;
+char type;
 bool showcredits;
 //For clock
 #define SECONDS_IN_DAY 86400
@@ -38,17 +38,45 @@ void getSystemVersion()
 		//-----------> OLD 3DS
 		switch (kversion)
 		{
+		default:         // Unsupported
+			type = '0';
+			systemVersion = "unsupported";
+			break;
 		case 0x02220000: // 4.x
-			type = 1;
+			type = '1';
+			systemVersion = "Old 3DS V. 4.1 - 4.5";
+			break;
+		case 0x02230600: // 5.0
+			type = '2';
+			systemVersion = "Old 3DS V. 5.0";
+			break;
+		case 0x02240000: // 5.1
+			type = '3';
+			systemVersion = "Old 3DS V. 5.1";
+			break;
+		case 0x02250000: // 6.0
+			type = '4';
+			systemVersion = "Old 3DS V. 6.0";
+			break;
+		case 0x02260000: // 6.1
+			type = '5';
+			systemVersion = "Old 3DS V. 6.1";
+			break;
+		case 0x02270400: // 7.0-7.1
+			type = '6';
+			systemVersion = "Old 3DS V. 7.0 - 7.1";
+			break;
+		case 0x02280000: // 7.2
+			type = '7';
+			systemVersion = "Old 3DS V. 7.2";
 			break;
 		case 0x022C0600: // 8.x
-			type = 2;
+			type = '8';
+			systemVersion = "Old 3DS V. 8.0 - 8.1";
 			break;
 		case 0x022E0000: // 9.x
-			type = 3;
-			break;
-		default:
-			type = 0;
+			type = '9';
+			systemVersion = "Old 3DS V. 9.0 - 9.2";
 			break;
 		}
 	}
@@ -57,44 +85,25 @@ void getSystemVersion()
 		//-----------> NEW 3DS
 		switch (kversion)
 		{
-		case 0x022E0000: // 9.x
-			type = 4;
+		case 0x022C0600: // 8.x
+			type = 'a';
+			systemVersion = "New 3DS V. 8.1";
 			break;
-		default:
+		case 0x022E0000: // 9.x
+			type = 'b';
+			systemVersion = "New 3DS V. 9.0 - 9.2";
+			break;
+		default:         // Unsupported
 			type = 0;
+			systemVersion = "unsupported";
 			break;
 		}
 	}
 
-	
 	//Then we save the detected type to a txt file
 	FILE *f = fopen("/3ds/PastaCFW/system.txt", "w");
-	fprintf(f, "%d", type);
+	fprintf(f, "%c", type);
 	fclose(f);
-
-	//And also we save it to a char*
-	switch (type)
-	{
-	case 0: //Unsupported
-		systemVersion = "unsupported";
-		break;
-
-	case 1:
-		systemVersion = "Old 3DS V. 4.1 - 4.5";
-		break;
-
-	case 2:
-		systemVersion = "Old 3DS V. 8.0 - 8.1";
-		break;
-
-	case 3:
-		systemVersion = "Old 3DS V. 9.0-9.2";
-		break;
-
-	case 4:
-		systemVersion = "New 3DS V. 9.0 - 9.2";
-		break;
-	}
 }
 
 void bootCFW_FirstStage()
