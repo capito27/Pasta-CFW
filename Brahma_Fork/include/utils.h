@@ -1,4 +1,4 @@
 #pragma once
 
-void InvalidateEntireInstructionCache(void);
-void InvalidateEntireDataCache(void);
+void InvalidateEntireInstructionCache (void);
+void InvalidateEntireDataCache (void);
