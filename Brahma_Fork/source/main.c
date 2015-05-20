@@ -159,11 +159,11 @@ void drawUI()
 		//DRAWS A BIG RECT AND WRITES CREDITS INSIDE IT
 		drawFillRect(40, 50, 360, 210, 64, 64, 64, screenTopLeft);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "CREDITS:", 180, 230 - fontDefault.height * 4);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 5);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 6);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 7);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 8);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 9);
+		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "AlbertoSONIC: UI, autoboot and code enhancements.", 50, 230 - fontDefault.height * 5);
+		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Patois: Providing the Brahma solution.", 50, 230 - fontDefault.height * 6);
+		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Motezazer: Providing most of the offsets for the CFW.", 50, 230 - fontDefault.height * 7);
+		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Unknown: Leaking method and some O3DS offsets.", 50, 230 - fontDefault.height * 8);
+		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Capito27: Starting the PastaCFW idea.", 50, 230 - fontDefault.height * 9);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 10);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 11);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 12);
