@@ -14,7 +14,6 @@
 //variables
 char* systemVersion;
 int type;
-u8 isN3DS = 0;
 bool showcredits;
 //For clock
 #define SECONDS_IN_DAY 86400
@@ -31,27 +30,42 @@ s32 quick_boot_firm(s32 load_from_disk) {
 void getSystemVersion()
 {
 	//FIRSTLY, CHECK NEW 3DS
+	u8 isN3DS = 0;
 	APT_CheckNew3DS(NULL, &isN3DS);
-	if (isN3DS) {
-		type = 4;
-	}
-	else
+    unsigned int kversion = *(unsigned int *)0x1FF80000;
+	if (!isN3DS || kversion < 0x022C0600)
 	{
-		//Now we really check system version, based off kversion
-		unsigned int kversion = *(unsigned int *)0x1FF80000;
-		if (kversion == 0x02220000) {
+		//-----------> OLD 3DS
+		switch (kversion)
+		{
+		case 0x02220000: // 4.x
 			type = 1;
-		}
-		else if (kversion == 0x022C0600){
+			break;
+		case 0x022C0600: // 8.x
 			type = 2;
-		}
-		else if (kversion == 0x022E0000) {
+			break;
+		case 0x022E0000: // 9.x
 			type = 3;
-		}
-		else {
+			break;
+		default:
 			type = 0;
+			break;
 		}
 	}
+	else 
+	{
+		//-----------> NEW 3DS
+		switch (kversion)
+		{
+		case 0x022E0000: // 9.x
+			type = 4;
+			break;
+		default:
+			type = 0;
+			break;
+		}
+	}
+
 	
 	//Then we save the detected type to a txt file
 	FILE *f = fopen("/3ds/PastaCFW/system.txt", "w");
