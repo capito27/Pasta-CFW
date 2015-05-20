@@ -10,6 +10,7 @@
 #include "rendering.h"
 #include "hid.h"
 #include "TOP_bin.h"
+#include "BOT_bin.h"
 
 //variables
 char* systemVersion;
@@ -121,8 +122,9 @@ void drawUI()
 	//-------------- TOP --------------
 	//WALLPAPER
 	gfxDrawSprite(GFX_TOP, GFX_LEFT, (u8*)TOP_bin, 240, 400, 0, 0);
+	
 	//STATUSBAR
-	drawFillRect(0, 0, 399, 17, 128, 128, 128, screenTopLeft);
+	drawFillRect(0, 0, 399, 17, 114, 110, 84, screenTopLeft);
 	sprintf(buffer, "Pasta CFW Loader                  %s", systemVersion);
 	gfxDrawText(GFX_TOP, GFX_LEFT, NULL, buffer, 5, 238 - fontDefault.height * 1);
     //CLOCK
@@ -133,49 +135,21 @@ void drawUI()
 
 	//------------- BOTTOM ------------
 	//Prints a background!
-	drawFillRect(0, 0, 319, 239, 128, 128, 128, screenBottom);
-
-	//Prints the buttons
-	drawFillRect(14, 6, 92, 33, 64, 64, 64, screenBottom); //EXIT
-	drawFillRect(220, 6, 303, 33, 64, 64, 64, screenBottom); //CREDITS
-	drawFillRect(14, 149, 302, 212, 255, 0, 0, screenBottom); //REBOOT 
-
-	//Prints the text
-	sprintf(buffer, "    Exit");
-	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 30, 245 - fontDefault.height * 2);
-
-	sprintf(buffer, "  Credits");
-	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 235, 245 - fontDefault.height * 2);
-
-	if (type != 0) //Draws "boot" button only if the system is supported
-	{
-		drawFillRect(14, 68, 302, 131, 0, 204, 0, screenBottom);
-		sprintf(buffer, "      BOOT CFW");
-		gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 108, 240 - fontDefault.height * 6);
-		sprintf(buffer, "Apply patches and reboot!");
-		gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 88, 240 - fontDefault.height * 7);
-	}
-
-	sprintf(buffer, "     REBOOT 3DS");
-	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 110, 240 - fontDefault.height * 11);
-
-	sprintf(buffer, "Reboot without applying any patch");
-	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, buffer, 65, 240 - fontDefault.height * 12);
+	gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0, 0);
 
 	//CREDITS!
 	if (showcredits)
 	{
 		//DRAWS A BIG RECT AND WRITES CREDITS INSIDE IT
-		drawFillRect(40, 50, 360, 210, 64, 64, 64, screenTopLeft);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "CREDITS:", 180, 230 - fontDefault.height * 4);
+		drawFillRect(40, 50, 360, 190, 114, 110, 84, screenTopLeft);
+		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "CREDITS:", 175, 230 - fontDefault.height * 4);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "AlbertoSONIC: UI, autoboot and code enhancements.", 50, 230 - fontDefault.height * 5);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Patois: Providing the Brahma solution.", 50, 230 - fontDefault.height * 6);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Motezazer: Providing most of the offsets for the CFW.", 50, 230 - fontDefault.height * 7);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Unknown: Leaking method and some O3DS offsets.", 50, 230 - fontDefault.height * 8);
 		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Capito27: Starting the PastaCFW idea.", 50, 230 - fontDefault.height * 9);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 10);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 11);
-		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "-", 50, 230 - fontDefault.height * 12);
+		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "KARL team: Kernel version detection", 50, 230 - fontDefault.height * 10);
+		gfxDrawText(GFX_TOP, GFX_LEFT, NULL, "Smea: for Ninjhax and HomeBrew Menu", 50, 230 - fontDefault.height * 11);
 	}
 }
 
@@ -226,20 +200,20 @@ int main() {
 			drawUI();
 
 			//Do stuff
-			if ((posX >= 14 && posX <= 302) && (posY >= 68 && posY <= 131))
+			if ((posX >= 30 && posX <= 293) && (posY >= 57 && posY <= 112))
 			{
 				bootCFW_FirstStage(); //Boot CFW
 			}
-			else if ((posX >= 14 && posX <= 302) && (posY >= 149 && posY <= 212))
+			else if ((posX >= 30 && posX <= 292) && (posY >= 148 && posY <= 202))
 			{
 				//Reboot Code
 				aptOpenSession();
 				APT_HardwareResetAsync(NULL);
 				aptCloseSession();
 			}
-			else if ((posX >= 6 && posX <= 92) && (posY >= 6 && posY <= 33)) break;
+			else if ((posX >= 14 && posX <= 137) && (posY >= 0 && posY <= 27)) break; //EXIT
 
-			if ((posX >= 220 && posX <= 303) && (posY >= 6 && posY <= 33))
+			if ((posX >= 180 && posX <= 303) && (posY >= 0 && posY <= 27))
 			{
 				if (showcredits)showcredits = false;
 				else showcredits = true;
