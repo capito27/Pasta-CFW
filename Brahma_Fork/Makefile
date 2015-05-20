@@ -33,7 +33,7 @@ DATA		:=	data
 INCLUDES	:=	include
 APP_TITLE	:=	Pasta CFW loader
 APP_DESCRIPTION :=	ARM11 and ARM9 Kernel Code Execution
-APP_AUTHOR	:=	Capito27 (+ A LOT)
+APP_AUTHOR	:=	Capito27 & AlbertoSONIC
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -125,11 +125,15 @@ $(BUILD):
 	@echo $(SFILES)
 	@[ -d $@ ] || mkdir -p $@
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	cp $(OUTPUT).3dsx PastaCFW.3dsx
+	cp $(OUTPUT).smdh PastaCFW.smdh
+	cp $(OUTPUT).elf PastaCFW.elf
+	@rm -fr $(OUTPUT).3dsx $(OUTPUT).elf $(OUTPUT).smdh 
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf
+	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf PastaCFW.3dsx PastaCFW.smdh PastaCFW.elf
 
 
 #---------------------------------------------------------------------------------

@@ -18,9 +18,9 @@ include $(DEVKITARM)/3ds_rules
 #---------------------------------------------------------------------------------
 export TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source
+SOURCES		:=	source source/fatfs
 DATA		:=	data
-INCLUDES	:=	include source
+INCLUDES	:=	include source source/fatfs
 
 #---------------------------------------------------------------------------------
 # Setup some defines
@@ -101,12 +101,15 @@ all: $(BUILD)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
-	cp $(OUTPUT).bin arm9payload.bin
+	cp $(OUTPUT).bin loader.bin
+	cp $(OUTPUT).elf loader.elf
+	@rm -fr $(OUTPUT).bin $(OUTPUT).elf
+
  
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).bin
+	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).bin loader.bin loader.elf
  
  
 #---------------------------------------------------------------------------------

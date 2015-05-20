@@ -3,31 +3,19 @@
 .code 32
 .text
 
+@ default ARM9 payload, simply launches FIRM (reboots without clearing mem)
 .global arm9_start
-@ insert your funky stuff here
-@ this code will not be executed if "/arm9payload.bin" is present
 arm9_start:
 	B               skipvars
 
-	@ offs 4, to be filled during runtime
-	pa_arm9_entrypoint_backup: .long 0
+	@ offs 4, will contain backup copy of FIRM ARM9
+	@ entry point so execution can be returned to FIRM
+	pa_arm9_entrypoint_backup: .long 0xFFFF0000
 	
 skipvars:
 	STMFD           SP!, {R0-R12,LR}
 
-	@ delay execution. just for "fun"
-	MOV             R1, #0x10
-outer:
-	
-	MOV             R0, #0
-	ADD             R0, R0, #0xFFFFFFFF
-inner:
-	SUBS            R0, R0, #1
-	NOP
-	BGT             inner
-	SUBS            R1, R1, #1
-	BGT             outer
-
+	@ insert your funky stuff here
 	LDMFD           SP!, {R0-R12,LR}
 	
 	LDR             PC, pa_arm9_entrypoint_backup
