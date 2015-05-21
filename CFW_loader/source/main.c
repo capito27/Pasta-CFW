@@ -12,10 +12,6 @@ char* systemVersion;
 char type;
 void ioDelay(u32);
 
-//Patches
-u8 patch[] = { 0x6D, 0x20, 0xCE, 0x77 };
-u8 patch1[] = { 0x5A, 0xC5, 0x73, 0xC1 };
-
 void ClearTop() {
 	ClearScreen(TOP_SCREEN0, RGB(0, 0, 0));
 	ClearScreen(TOP_SCREEN1, RGB(0, 0, 0));
