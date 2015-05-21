@@ -147,7 +147,7 @@ void bootCFW_SecondStage()
 	else if (type == '8'){ // 8.x
 		u32 *dest = 0x080523C4;
 		u32 *dest1 = 0x08058098;
-		u8 patch[] = { 0x01, 0x27, 0x3B, 0xE0 };
+		u8 patch[] = { 0x00, 0x20, 0x3B, 0xE0 };
 		u8 patch1[] = { 0x00, 0x20, 0x08, 0xE0 };
 		memcpy(dest, patch, 4);
 		memcpy(dest1, patch1, 4);
