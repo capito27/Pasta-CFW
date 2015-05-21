@@ -200,23 +200,25 @@ int main() {
 			drawUI();
 
 			//Do stuff
-			if ((posX >= 30 && posX <= 293) && (posY >= 57 && posY <= 112))
+			if(!(input & KEY_TOUCH) && (old_input & KEY_TOUCH))
 			{
-				bootCFW_FirstStage(); //Boot CFW
-			}
-			else if ((posX >= 30 && posX <= 292) && (posY >= 148 && posY <= 202))
-			{
-				//Reboot Code
-				aptOpenSession();
-				APT_HardwareResetAsync(NULL);
-				aptCloseSession();
-			}
-			else if ((posX >= 14 && posX <= 137) && (posY >= 0 && posY <= 27)) break; //EXIT
+				if ((posX >= 30 && posX <= 293) && (posY >= 57 && posY <= 112))
+				{
+					bootCFW_FirstStage(); //Boot CFW
+				}
+				else if ((posX >= 30 && posX <= 292) && (posY >= 148 && posY <= 202))
+				{
+					//Reboot Code
+					aptOpenSession();
+					APT_HardwareResetAsync(NULL);
+					aptCloseSession();
+				}
+				else if ((posX >= 14 && posX <= 137) && (posY >= 0 && posY <= 27)) break; //EXIT
 
-			if ((posX >= 180 && posX <= 303) && (posY >= 0 && posY <= 27))
-			{
-				if (showcredits)showcredits = false;
-				else showcredits = true;
+				if (((posX >= 180 && posX <= 303) && (posY >= 0 && posY <= 27)))
+				{
+					showcredits = !showcredits;
+				}
 			}
 
 			// Flush and swap framebuffers
