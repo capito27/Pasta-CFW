@@ -1,5 +1,13 @@
 # Pasta-CFW
 
+##Version 1.0
+
+###Changelog :
+-minor UI fixes
+
+###Bugs :
+Please report any bugs you might experience.
+
 ##Version 1.0 beta 3
 
 ###Changelog :
