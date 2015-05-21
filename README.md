@@ -1,5 +1,13 @@
 # Pasta-CFW
 
+##Version 1.0 beta 3
+
+###Changelog :
+-fixed 8.X support
+
+###Bugs :
+Please report any bugs you might experience.
+
 ##Version 1.0 beta 2
 
 ###Changelog :
