@@ -4,6 +4,7 @@
 
 void getInput();
 
+extern u32 old_input;
 extern u32 input;
 extern u16 posX;
 extern u16 posY;

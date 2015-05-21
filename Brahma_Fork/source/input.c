@@ -7,11 +7,10 @@
 #include <stdio.h>
 
 //Variables
+u32 old_input;
 u32 input;
 u16 posX;
 u16 posY;
-u16 old_posX;
-u16 old_posY;
 
 void getInput()
 {
@@ -22,18 +21,8 @@ void getInput()
 	posX = myTouchPosition.px;
 	posY = myTouchPosition.py;
 
-	if (old_posX == posX && old_posY == posY)
-	{ 
-		posX = 0; 
-		posY = 0; 
-	}
-	else
-	{
-		old_posX = posX;
-		old_posY = posY;
-	}
-
 	//HID Input
+	old_input = input;
 	hidScanInput();
 	input = hidKeysDown();
 }
