@@ -11,6 +11,10 @@
 #include "hid.h"
 #include "TOP_bin.h"
 #include "BOT_bin.h"
+#include "BOT_REBOOT_bin.h"
+#include "BOT_EXIT_bin.h"
+#include "BOT_BOOT_bin.h"
+#include "BOT_CREDITS_bin.h"
 
 //variables
 char* systemVersion;
@@ -166,6 +170,27 @@ void guiPopup(char* title, char* line1, char* line2, char* line3)
 	gfxDrawText(GFX_BOTTOM, GFX_LEFT, NULL, line3, 50, 245 - fontDefault.height * 9);
 }
 
+void updateFB()
+{
+	// Flush and swap framebuffers
+	gfxFlushBuffers();
+	gfxSwapBuffers();
+
+	//Wait for VBlank
+	gspWaitForVBlank();
+}
+
+bool forceBootMenu()
+{
+	FILE* bm;
+	if (bm = fopen("/3ds/PastaCFW/bootmenu.txt", "r"))
+	{
+		fclose(bm);
+		return true;
+	}
+	return false;
+}
+
 int main() {
 	// Initialize services
 	srvInit();
@@ -184,8 +209,8 @@ int main() {
     //Check kernel version first
 	getSystemVersion();
 
-	// If L is held, show UI
-	if (kHeld & KEY_L)
+	// If L is held, show UI - If bootmenu.txt exists, then we always open the menu!  
+	if (forceBootMenu() || kHeld & KEY_L)
 	{
 		// Main loop
 		while (aptMainLoop())
@@ -204,23 +229,43 @@ int main() {
 			{
 				if ((posX >= 30 && posX <= 293) && (posY >= 57 && posY <= 112))
 				{
+					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_BOOT_bin, 85, 304, 0, 240-118);
+					updateFB();
+					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0, 0);
+					updateFB();
 					bootCFW_FirstStage(); //Boot CFW
 				}
 				else if ((posX >= 30 && posX <= 292) && (posY >= 148 && posY <= 202))
 				{
+					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_REBOOT_bin, 101, 320, 0, 240-239);
+					updateFB();
+					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0, 0);
+					updateFB();
 					//Reboot Code
 					aptOpenSession();
 					APT_HardwareResetAsync(NULL);
 					aptCloseSession();
 				}
-				else if ((posX >= 14 && posX <= 137) && (posY >= 0 && posY <= 27)) break; //EXIT
+				else if ((posX >= 14 && posX <= 137) && (posY >= 0 && posY <= 27))
+				{
+					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_EXIT_bin, 34, 320, 0, 240-34);
+					updateFB();
+					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0,0);
+					updateFB();
+					break; //EXIT
+				}
 
 				if (((posX >= 180 && posX <= 303) && (posY >= 0 && posY <= 27)))
 				{
+					//CREDITS
+					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_CREDITS_bin, 34, 320, 0, 240 - 34);
+					updateFB();
+					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0, 0);
+					updateFB();
 					showcredits = !showcredits;
 				}
 			}
-
+			/*updateFB();*/
 			// Flush and swap framebuffers
 			gfxFlushBuffers();
 			gfxSwapBuffers();
