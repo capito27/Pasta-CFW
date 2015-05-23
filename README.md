@@ -1,5 +1,7 @@
 # Pasta-CFW
 
+[![Join the chat at https://gitter.im/capito27/Pasta-CFW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/capito27/Pasta-CFW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ##Version 1.0
 
 ###Changelog :
