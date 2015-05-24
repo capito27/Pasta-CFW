@@ -89,7 +89,7 @@ void bootCFW_SecondStage()
 	u8 patch[] = { 0x00, 0x20, 0x3B, 0xE0 };
 	u8 patch1[] = { 0x00, 0x20, 0x08, 0xE0 };
 	u8 patch2[] = { 0x01, 0x27, 0x1E, 0xF5 };
-	u8 patch13[] = { 0xB4, 0xF9, 0xD0, 0xAB };
+	u8 patch3[] = { 0xB4, 0xF9, 0xD0, 0xAB };
 	u8 patch4[] = { 0x6D, 0x20, 0xCE, 0x77 };
 	u8 patch5[] = { 0x5A, 0xC5, 0x73, 0xC1 };
 	//Apply patches
@@ -119,8 +119,8 @@ void bootCFW_SecondStage()
 		memcpy(dest1, patch1, 4);
 	}
 	else if (type == '5'){ // 6.1 - 6.3
-		u32 *	dest = 0x08051B5C;
-		u32 *	dest1 = 0x0803CF74;
+		u32 *dest = 0x08051B5C;
+		u32 *dest1 = 0x0803CF74;
 		memcpy(dest, patch, 4);
 		memcpy(dest1, patch1, 4);
 	}
