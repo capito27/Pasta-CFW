@@ -47,7 +47,7 @@ void getSystemVersion()
 		break;
 	case '3': // 5.1
 		type = '3';
-		systemVersion = "Old 3DS V. 5.1"; 
+		systemVersion = "Old 3DS V. 5.1";
 		break;
 	case '4': // 6.0
 		type = '4';
@@ -114,25 +114,25 @@ void bootCFW_SecondStage()
 	}
 	else if (type == '4'){ // 6.0
 		u32 *dest = 0x0805235C;
-		u32 *dest1 = 0x0803D774;
+		u32 *dest1 = 0x08057FE4;
 		memcpy(dest, patch, 4);
 		memcpy(dest1, patch1, 4);
 	}
 	else if (type == '5'){ // 6.1 - 6.3
 		u32 *dest = 0x08051B5C;
-		u32 *dest1 = 0x0803CF74;
+		u32 *dest1 = 0x08057FE4;
 		memcpy(dest, patch, 4);
 		memcpy(dest1, patch1, 4);
 	}
 	else if (type == '6'){ // 7.0-7.1
 		u32 *dest = 0x080521C4;
-		u32 *dest1 = 0x0803D568;
+		u32 *dest1 = 0x08057E98;
 		memcpy(dest, patch, 4);
 		memcpy(dest1, patch1, 4);
 	}
 	else if (type == '7'){ // 7.2
 		u32 *dest = 0x080521C8;
-		u32 *dest1 = 0x0803D56C;
+		u32 *dest1 = 0x08057E9C;
 		memcpy(dest, patch, 4);
 		memcpy(dest1, patch1, 4);
 	}
