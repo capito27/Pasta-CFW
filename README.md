@@ -2,6 +2,17 @@
 
 [![Join the chat at https://gitter.im/capito27/Pasta-CFW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/capito27/Pasta-CFW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+##Version 1.2
+
+###Changelog :
+-Added an ARM9 ram dumper, for debug purposes<br />
+-Added support to PC Companion App<br />
+-Changed the system.txt handling<br />
+-Now to autoboot the gui, you don't have to create a bootmenu.txt file. You just have to use the PC Companion App.
+
+###Bugs :
+Please report any bugs you might experience.
+
 ##Version 1.1.1
 
 ###Changelog :
