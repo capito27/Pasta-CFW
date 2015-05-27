@@ -11,6 +11,7 @@
 char* systemVersion;
 char type;
 void ioDelay(u32);
+bool dump_arm9;
 
 void ClearTop() {
 	ClearScreen(TOP_SCREEN0, RGB(0, 0, 0));
@@ -28,14 +29,13 @@ void wait_key() {
 
 void getSystemVersion()
 {
-	File VersionFile;
-	char sysver[16];
-	if (FileOpen(&VersionFile, "/3ds/PastaCFW/system.txt", 0)){
-		FileRead(&VersionFile, sysver, 16, 0);
-		FileClose(&VersionFile);
+	char settings[16];
+	if (FileOpen("/3ds/PastaCFW/system.txt")){
+		FileRead(settings, 16, 0);
+		FileClose();
 	}
 
-	switch (sysver[0])
+	switch (settings[0])
 	{
 	case '1': // 4.x
 		type = '1';
@@ -82,6 +82,9 @@ void getSystemVersion()
 		systemVersion = "New 3DS V. 9.0 - 9.2";
 		break;
 	}
+
+	//Check if to use the ARM9 Dumper
+	if (settings[2] == '1') dump_arm9 = true;
 }
 
 void bootCFW_SecondStage()
@@ -93,7 +96,7 @@ void bootCFW_SecondStage()
 	u8 patch4[] = { 0x6D, 0x20, 0xCE, 0x77 };
 	u8 patch5[] = { 0x5A, 0xC5, 0x73, 0xC1 };
 	//Apply patches
-	Debug("Apply patch for type %c...", type);
+	DebugNoNewLine("Apply patch for type %c...", type);
 	if (type == '1'){ // 4.x
 		u32 *dest = 0x080549C4;
 		u32 *dest1 = 0x0804239C;
@@ -160,28 +163,70 @@ void bootCFW_SecondStage()
 		memcpy(dest, patch4, 4);
 		memcpy(dest1, patch5, 4);
 	}
+	Debug("Apply patch for type %c...                  Done!", type);
+}
 
-	Debug("Done!");
+void arm9dumper()
+{
+	Debug("");
+	Debug("");
+	Debug("");
+	Debug("---------------- ARM9 RAM DUMPER ---------------");
+	Debug("");
+	DebugNoNewLine("Press A to DUMP, B to skip.");
+
+	u32 pad_state = InputWait();
+
+
+	if (pad_state & BUTTON_B)Debug("Skipping...");
+	else
+	{
+		u32 written = 0;
+		u32 total = 0;
+		u32 result = 0;
+		u32 num = 0;
+		void *addr = 0x08000000;
+		u32 size = 0x00100000;
+		const u32 sz_chunk = 0x10000;
+
+		if (FileCreate("/3ds/PastaCFW/RAM.bin", true)) {
+			while (total < size) {
+				num = size - total < sz_chunk ? size - total : sz_chunk;
+				written = FileWrite((u8 *)addr + total, num, total);
+				if (written != num) break;
+				total += written;
+				DebugNoNewLine("Dumping:                         %07d/%d", total, size);
+			}
+			FileClose();
+			result = (size == total);
+		}
+		Debug("");
+		Debug("");
+		Debug("Dump %s! Press any key to boot CFW.", result ? "finished" : "failed");
+		InputWait();
+	}
 }
 
 int main() {
 
 	//BOOT
 	ClearTop();
-	Debug("PASTA CFW LOADER");
+	Debug("--------------- PASTA CFW LOADER ---------------");
 	Debug("");
-	Debug("Initializing FS");
+	DebugNoNewLine("Initializing FS...");
 	InitFS();
+	Debug("Initializing FS...                         Done!");
 	Debug("");
-	Debug("Ready!");
-	Debug("");
-	Debug("Getting system information...");
-	Debug("");
+	DebugNoNewLine("Getting system information...");
 	getSystemVersion();
+	Debug("Getting system information...              Done!");
+	Debug("");
 	Debug("Your system is %s", systemVersion);
 	Debug("");
 	bootCFW_SecondStage();
+	if (dump_arm9 == true)arm9dumper();
 
 	// return control to FIRM ARM9 code (performs firmlaunch)
 	return 0;
 }
+

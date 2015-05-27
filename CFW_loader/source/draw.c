@@ -77,3 +77,16 @@ void Debug(const char *format, ...)
 
     current_y += 10;
 }
+
+void DebugNoNewLine(const char *format, ...)
+{
+	char str[256];
+	va_list va;
+
+	va_start(va, format);
+	vsnprintf(str, 256, format, va);
+	va_end(va);
+
+	DrawString(TOP_SCREEN0, str, 10, current_y, RGB(255, 255, 255), RGB(0, 0, 0));
+	DrawString(TOP_SCREEN1, str, 10, current_y, RGB(255, 255, 255), RGB(0, 0, 0));
+}

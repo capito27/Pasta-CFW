@@ -1,0 +1,9 @@
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\bin\Debug\PastaCFW Configurator.exe.config
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.csprojResolveAssemblyReference.cache
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW_Configurator.Form1.resources
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW_Configurator.Properties.Resources.resources
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.csproj.GenerateResource.Cache
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\bin\Debug\PastaCFW Configurator.exe
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\bin\Debug\PastaCFW Configurator.pdb
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.exe
+c:\users\utente\documents\visual studio 2013\Projects\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.pdb

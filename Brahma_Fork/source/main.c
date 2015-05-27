@@ -106,7 +106,7 @@ void getSystemVersion()
 	}
 
 	//Then we save the detected type to a txt file
-	FILE *f = fopen("/3ds/PastaCFW/system.txt", "w");
+	FILE *f = fopen("/3ds/PastaCFW/system.txt", "r+");
 	fprintf(f, "%c", type);
 	fclose(f);
 }
@@ -183,12 +183,13 @@ void updateFB()
 bool forceBootMenu()
 {
 	FILE* bm;
-	if (bm = fopen("/3ds/PastaCFW/bootmenu.txt", "r"))
-	{
-		fclose(bm);
-		return true;
-	}
-	return false;
+	bm = fopen("/3ds/PastaCFW/system.txt", "r");
+	char buffer[100];
+	fseek(bm, SEEK_SET, 0);
+	fread(buffer, 4, 1, bm);
+	fclose(bm);
+	if (buffer[1] == '1')return true;
+	else return false;
 }
 
 int main() {
