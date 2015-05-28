@@ -27,7 +27,7 @@ Please report any bugs you might experience.
 -fixed 6.X and 7.X offsets
 
 ###Bugs :
-Please report any bugs you might experience. 
+Please report any bugs you might experience.
 
 ##Version 1.1
 
