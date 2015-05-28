@@ -2,6 +2,14 @@
 
 [![Join the chat at https://gitter.im/capito27/Pasta-CFW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/capito27/Pasta-CFW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+##Version 1.2.1
+
+###Changelog :
+-Fixed 1.2 crashes
+
+###Bugs :
+Please report any bugs you might experience.
+
 ##Version 1.2
 
 ###Changelog :
