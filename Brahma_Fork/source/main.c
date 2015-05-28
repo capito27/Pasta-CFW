@@ -18,20 +18,53 @@
 
 //variables
 char* systemVersion;
-char type;
 bool showcredits;
+
+//Config values
+char type = '0';
+char auto_boot = '0';
+char arm9_dumper = '0';
+
 //For clock
 #define SECONDS_IN_DAY 86400
 #define SECONDS_IN_HOUR 3600
 #define SECONDS_IN_MINUTE 60
 
-
+//Boot command
 s32 quick_boot_firm(s32 load_from_disk) {
 	if (load_from_disk)
 		load_arm9_payload("/3ds/PastaCFW/loader.bin");
 	firm_reboot();
 }
 
+void loadConfiguration() //Here we load the system.txt file, so that we can get needed values. 
+{
+	char buffer []= "000";
+	if (fopen("/3ds/PastaCFW/system.txt", "r")) //If the file exists, read it. If it doesn't exists, then it gets created with saveConfiguration() function
+	{
+		FILE* cfg;
+		cfg = fopen("/3ds/PastaCFW/system.txt", "r");
+		fseek(cfg, SEEK_SET, 0);
+		fread(buffer, 4, 1, cfg); //Reads the file
+		fclose(cfg);
+	}
+	auto_boot = buffer[1]; //we read the values
+	arm9_dumper = buffer[2];
+}
+
+void saveConfiguration()
+{
+	//We save the configuration file, now it includes the detected firmware type
+	char buffer[]="000";
+	buffer[0] = type;
+	buffer[1] = auto_boot;
+	buffer[2] = arm9_dumper;
+	FILE *f = fopen("/3ds/PastaCFW/system.txt", "w+");
+	fprintf(f, "%s", buffer);
+	fclose(f);
+}
+
+//Gets system version from kernel and writes it to system.txt
 void getSystemVersion()
 {
 	//FIRSTLY, CHECK NEW 3DS
@@ -104,18 +137,13 @@ void getSystemVersion()
 			break;
 		}
 	}
-
-	//Then we save the detected type to a txt file
-	FILE *f = fopen("/3ds/PastaCFW/system.txt", "r+");
-	fprintf(f, "%c", type);
-	fclose(f);
 }
 
 void bootCFW_FirstStage()
 {
 	//Load arm9 payload
 	brahma_init();
-	quick_boot_firm(1);
+	quick_boot_firm(1); //Boots the payload
 	brahma_exit();
 }
 
@@ -180,18 +208,6 @@ void updateFB()
 	gspWaitForVBlank();
 }
 
-bool forceBootMenu()
-{
-	FILE* bm;
-	bm = fopen("/3ds/PastaCFW/system.txt", "r");
-	char buffer[100];
-	fseek(bm, SEEK_SET, 0);
-	fread(buffer, 4, 1, bm);
-	fclose(bm);
-	if (buffer[1] == '1')return true;
-	else return false;
-}
-
 int main() {
 	// Initialize services
 	srvInit();
@@ -202,16 +218,21 @@ int main() {
 	sdmcInit();
 	hbInit();
 	qtmInit();
-
 	hidScanInput();
 	u32 kDown = hidKeysDown();
 	u32 kHeld = hidKeysHeld();
 
-    //Check kernel version first
+	//Load the configuration
+	loadConfiguration();
+
+    //Check kernel version
 	getSystemVersion();
 
-	// If L is held, show UI - If bootmenu.txt exists, then we always open the menu!  
-	if (forceBootMenu() || kHeld & KEY_L)
+	//Then we save the configuration
+	saveConfiguration();
+
+	// If L is held, show UI - If set by PC Companion App, then we always open the menu!  
+	if (auto_boot=='1' || kHeld & KEY_L)
 	{
 		// Main loop
 		while (aptMainLoop())
@@ -230,6 +251,7 @@ int main() {
 			{
 				if ((posX >= 30 && posX <= 293) && (posY >= 57 && posY <= 112))
 				{
+					//"Boot" button
 					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_BOOT_bin, 85, 304, 0, 240-118);
 					updateFB();
 					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0, 0);
@@ -238,6 +260,7 @@ int main() {
 				}
 				else if ((posX >= 30 && posX <= 292) && (posY >= 148 && posY <= 202))
 				{
+					//"Reboot" button
 					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_REBOOT_bin, 101, 320, 0, 240-239);
 					updateFB();
 					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0, 0);
@@ -249,6 +272,7 @@ int main() {
 				}
 				else if ((posX >= 14 && posX <= 137) && (posY >= 0 && posY <= 27))
 				{
+					//"Exit" button
 					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_EXIT_bin, 34, 320, 0, 240-34);
 					updateFB();
 					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0,0);
@@ -258,7 +282,7 @@ int main() {
 
 				if (((posX >= 180 && posX <= 303) && (posY >= 0 && posY <= 27)))
 				{
-					//CREDITS
+					//"Credits" button
 					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_CREDITS_bin, 34, 320, 0, 240 - 34);
 					updateFB();
 					gfxDrawSprite(GFX_BOTTOM, GFX_LEFT, (u8*)BOT_bin, 240, 320, 0, 0);
@@ -266,7 +290,7 @@ int main() {
 					showcredits = !showcredits;
 				}
 			}
-			/*updateFB();*/
+
 			// Flush and swap framebuffers
 			gfxFlushBuffers();
 			gfxSwapBuffers();

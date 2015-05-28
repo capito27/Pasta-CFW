@@ -1,0 +1,1 @@
+cp PastaCFW.3dsx H:\3ds\PastaCFW

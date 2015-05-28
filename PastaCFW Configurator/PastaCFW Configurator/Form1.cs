@@ -136,7 +136,7 @@ namespace PastaCFW_Configurator
         private void prepareSettings()
         {
             MessageBox.Show("Pasta CFW has been found but the system.txt file is not found or not complete. Press OK to create it.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            updateFile('0', '0', '0');
+            File.WriteAllText(path + "system.txt", "000");
         }
 
     }
