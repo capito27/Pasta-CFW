@@ -19,7 +19,7 @@ Please report any bugs you might experience.
 -Now to autoboot the gui, you don't have to create a bootmenu.txt file. You just have to use the PC Companion App.
 
 ###Bugs :
-Please report any bugs you might experience.
+Please report any bugs you might experience. 
 
 ##Version 1.1.1
 
