@@ -1,0 +1,30 @@
+# Compiled Object files
+*.o
+
+# Visual Studio
+*.opensdf
+*.sdf
+*.suo
+*.tlog
+*.idb
+*.pdb
+*.obj
+*.ilk
+*.pch
+*.log
+*.cache
+*.lastbuildstate
+*.unsuccessfulbuild
+*.res
+*.dump
+
+# Visual Studio Profiler Files
+*.vspx
+*.psess
+
+# Copyrighted files
+
+# Objects
+/PastaCFW Configurator/PastaCFW Configurator/obj
+
+.DS_Store
