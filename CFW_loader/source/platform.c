@@ -17,22 +17,6 @@ char *platform_FWStrings[] = {
     "New 3DS V. 8.1",
     "New 3DS V. 9.0 - 9.2"
 };
-// Values for all supported firmware versions.
-u32 platform_FWValuesOld[] = {
-    SYSTEM_VERSION(4,1,0),
-    SYSTEM_VERSION(5,0,0),
-    SYSTEM_VERSION(5,1,0),
-    SYSTEM_VERSION(6,0,0),
-    SYSTEM_VERSION(6,1,0),
-    SYSTEM_VERSION(7,0,0),
-    SYSTEM_VERSION(7,2,0),
-    SYSTEM_VERSION(8,0,0),
-    SYSTEM_VERSION(9,0,0)
-};
-u32 platform_FWValuesNew[] = {
-    SYSTEM_VERSION(8,1,0),
-    SYSTEM_VERSION(9,0,0)
-};
 
 // @breif  Determine platform of the console.
 // @retval PLATFORM_N3DS for New3DS, and PLATFORM_3DS for Old3DS.
