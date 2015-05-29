@@ -5,6 +5,8 @@
 *.d
 *.bin
 *.elf
+*.smdh
+*.3dsx
 
 # Visual Studio
 *.opensdf
@@ -31,4 +33,4 @@
 
 # Objects
 /PastaCFW Configurator/PastaCFW Configurator/obj
-/CFW_loader/build
+*/build
