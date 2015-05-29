@@ -16,7 +16,7 @@ bool dump_arm9;
 void wait_key() {
 	DrawDebug(1,"");
 	DrawDebug(1,"Press key to continue");
-	InputWait();
+	HidWaitForInput();
 }
 
 void getSystemVersion()
@@ -167,7 +167,7 @@ void arm9dumper()
 	DrawDebug(1,"");
 	DrawDebug(0,"Press A to DUMP, B to skip.");
 
-	u32 pad_state = InputWait();
+	u32 pad_state = HidWaitForInput();
 
 
 	if (pad_state & BUTTON_B) DrawDebug(1,"Skipping...");
@@ -195,7 +195,7 @@ void arm9dumper()
 		DrawDebug(1,"");
 		DrawDebug(1,"");
 		DrawDebug(1,"Dump %s! Press any key to boot CFW.", result ? "finished" : "failed");
-		InputWait();
+		HidWaitForInput();
 	}
 }
 

@@ -10,26 +10,26 @@
 
 // @breif  Construct a RGB value.
 // @param  r, g, b. Red, Green, Blue.
-// @retval a uint32_t RGB value.
+// @retval a u32 RGB value.
 #define RGB(r,g,b) (r<<24|b<<16|g<<8|r)
 
 #define SCREEN_PTR_TOP0 (u8*)(0x20000000)
 #define SCREEN_PTR_TOP1 (u8*)(0x20046500)
 #define SCREEN_PTR_BOT0 (u8*)(0x2008CA00)
 #define SCREEN_PTR_BOT1 (u8*)(0x200C4E00)
-extern int drawInternalY;
+extern u32 drawInternalY;
 
-void DrawClearScreen(uint8_t *screenArea, uint32_t color);
+void DrawClearScreen(u8 *screenArea, u32 color);
 void DrawClearScreenAll(void);
 
-void DrawCharacter(uint8_t *screenArea, char character, uint32_t x, uint32_t y, uint32_t foreColor, uint32_t backColor);
-void DrawString(uint8_t *screenArea, const char *str, uint32_t x, uint32_t y, uint32_t foreColor, uint32_t backColor);
-void DrawDebug(uint8_t newline, const char *format, ...);
+void DrawCharacter(u8 *screenArea, char character, u32 x, u32 y, u32 foreColor, u32 backColor);
+void DrawString(u8 *screenArea, const char *str, u32 x, u32 y, u32 foreColor, u32 backColor);
+void DrawDebug(u8 newline, const char *format, ...);
 
 //Unused.
-void DrawStringFormat(uint8_t newline, uint8_t debug, uint32_t x, uint32_t y, const char *format, ...);
+void DrawStringFormat(u8 newline, u8 debug, u32 x, u32 y, const char *format, ...);
 
 //Un-implemented.
-//void DrawHex(uint8_t *screenArea, unsigned int hex, int x, int y, int color, int bgcolor);
-//void DrawHexWithName(uint8_t *screenArea, const char *str, unsigned int hex, int x, int y, int color, int bgcolor);
+//void DrawHex(u8 *screenArea, unsigned int hex, int x, int y, int color, int bgcolor);
+//void DrawHexWithName(u8 *screenArea, const char *str, unsigned int hex, int x, int y, int color, int bgcolor);
 
