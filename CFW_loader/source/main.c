@@ -10,8 +10,9 @@
 //VARIABLES
 char* cfw_FWString;
 char cfw_FWValue;
-void ioDelay(u32);
-bool dump_arm9;
+//void ioDelay(u32);
+bool cfw_arm9dump;
+
 // @breif  [Unused]Simply wait for a key, but not use its value.
 // @note   Work like a pause.
 void CFW_WaitKey() {
@@ -31,43 +32,43 @@ void CFW_getSystemVersion(void) {
 	switch (settings[0]) {
         //Old 3ds
         case '1': //4.x
-            cfw_FWString = "Old 3DS V. 4.1 - 4.5";
+            cfw_FWString = platform_FWStrings[0];
 		    break;
         case '2': // 5.0
-    		cfw_FWString = "Old 3DS V. 5.0";
+            cfw_FWString = platform_FWStrings[1];
     		break;
     	case '3': // 5.1
-    		cfw_FWString = "Old 3DS V. 5.1";
+            cfw_FWString = platform_FWStrings[2];
     		break;
     	case '4': // 6.0
-    		cfw_FWString = "Old 3DS V. 6.0";
+            cfw_FWString = platform_FWStrings[3];
     		break;
     	case '5': // 6.1 - 6.3
-    		cfw_FWString = "Old 3DS V. 6.1 - 6.3";
+            cfw_FWString = platform_FWStrings[4];
     		break;
     	case '6': // 7.0-7.1
-    		cfw_FWString = "Old 3DS V. 7.0 - 7.1";
+            cfw_FWString = platform_FWStrings[5];
     		break;
     	case '7': // 7.2
-    		cfw_FWString = "Old 3DS V. 7.2";
+            cfw_FWString = platform_FWStrings[6];
     		break;
     	case '8': // 8.x
-    		cfw_FWString = "Old 3DS V. 8.0 - 8.1";
+            cfw_FWString = platform_FWStrings[7];
     		break;
     	case '9': // 9.x
-    		cfw_FWString = "Old 3DS V. 9.0 - 9.2";
+            cfw_FWString = platform_FWStrings[8];
     		break;
         //New 3ds
     	case 'a': // 8.x
-    		cfw_FWString = "New 3DS V. 8.1";
+            cfw_FWString = platform_FWStrings[9];
     		break;
     	case 'b': // 9.x
-    		cfw_FWString = "New 3DS V. 9.0 - 9.2";
+            cfw_FWString = platform_FWStrings[10];
     		break;
 	}
 
 	//Check if to use the ARM9 Dumper
-	if (settings[2] == '1') dump_arm9 = true;
+	if (settings[2] == '1') cfw_arm9dump = true;
 }
 // @breif  Patch the offsets to pass the signs.
 // @note   So please make sure you've have the file in your SD.
@@ -184,7 +185,7 @@ int main() {
 	DrawDebug(1,"Your system is %s", cfw_FWString);
 	DrawDebug(1,"");
 	CFW_SecondStage();
-	if (dump_arm9 == true)CFW_ARM9Dumper();
+	if (cfw_arm9dump == true)CFW_ARM9Dumper();
 	// return control to FIRM ARM9 code (performs firmlaunch)
 	return 0;
 }

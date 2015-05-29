@@ -18,6 +18,6 @@ size_t FSFileRead(void* buf, size_t size, size_t foffset);
 size_t FSFileWrite(void* buf, size_t size, size_t foffset);
 
 /** Gets the size of the opened file */
-size_t FSFileGetSize();
+size_t FSFileGetSize(void);
 
-void FSFileClose();
+void FSFileClose(void);
