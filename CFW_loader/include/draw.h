@@ -32,4 +32,3 @@ void DrawStringFormat(u8 newline, u8 debug, u32 x, u32 y, const char *format, ..
 //Un-implemented.
 //void DrawHex(u8 *screenArea, unsigned int hex, int x, int y, int color, int bgcolor);
 //void DrawHexWithName(u8 *screenArea, const char *str, unsigned int hex, int x, int y, int color, int bgcolor);
-
