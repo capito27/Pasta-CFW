@@ -1,5 +1,7 @@
 #pragma once
 
+//[Unused] All these functions aren't used in compiled binary. Maybe removed later?
+
 typedef int menu_func_t(int, void *);
 
 typedef struct menu_elem_t {

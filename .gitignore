@@ -1,5 +1,12 @@
+.DS_Store
+
 # Compiled Object files
 *.o
+*.d
+*.bin
+*.elf
+*.smdh
+*.3dsx
 
 # Visual Studio
 *.opensdf
@@ -26,5 +33,4 @@
 
 # Objects
 /PastaCFW Configurator/PastaCFW Configurator/obj
-
-.DS_Store
+*/build

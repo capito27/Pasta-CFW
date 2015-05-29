@@ -1,6 +1,8 @@
 #include "textmenu.h"
 #include "draw.h"
 
+//[Unused] All these functions aren't used in compiled binary. Maybe removed later?
+
 int menu_get_element_count (struct menu_t *menu) {
 	int i = 0;
 
