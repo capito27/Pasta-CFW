@@ -22,6 +22,8 @@ void ClearScreen(unsigned char *screen, int color)
 void DrawCharacter(unsigned char *screen, int character, int x, int y, int color, int bgcolor)
 {
     int yy, xx;
+    u8 foreColorR = color & 0xFF, foreColorG = color >> 8, foreColorB = color >> 16;
+    u8 backColorR = bgcolor & 0xFF, backColorG = bgcolor >> 8, backColorB = color >> 16;
     for (yy = 0; yy < 8; yy++) {
         int xDisplacement = (x * BYTES_PER_PIXEL * SCREEN_WIDTH);
         int yDisplacement = ((SCREEN_WIDTH - (y + yy) - 1) * BYTES_PER_PIXEL);
@@ -30,13 +32,13 @@ void DrawCharacter(unsigned char *screen, int character, int x, int y, int color
         unsigned char charPos = font[character * 8 + yy];
         for (xx = 7; xx >= 0; xx--) {
             if ((charPos >> xx) & 1) {
-                *(screenPos + 0) = color >> 16;  // B
-                *(screenPos + 1) = color >> 8;   // G
-                *(screenPos + 2) = color & 0xFF; // R
+                *(screenPos + 0) = foreColorB;  // B
+                *(screenPos + 1) = foreColorG;   // G
+                *(screenPos + 2) = foreColorR; // R
             } else {
-                *(screenPos + 0) = bgcolor >> 16;  // B
-                *(screenPos + 1) = bgcolor >> 8;   // G
-                *(screenPos + 2) = bgcolor & 0xFF; // R
+                *(screenPos + 0) = backColorB;  // B
+                *(screenPos + 1) = backColorG;   // G
+                *(screenPos + 2) = backColorR; // R
             }
             screenPos += BYTES_PER_PIXEL * SCREEN_WIDTH;
         }
