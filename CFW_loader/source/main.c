@@ -7,18 +7,27 @@
 #include "platform.h"
 #include "draw.h"
 
-//VARIABLES
+//This contains the System Firmware Version String.
 char* cfw_FWString;
+//This is the System Firmware Version in system.txt
 char cfw_FWValue;
-//void ioDelay(u32);
+//if true, dump the ARM9 ram
 bool cfw_arm9dump;
 
+//[Unused]
+//void ioDelay(u32);
+
+// @breif  [Unused]Simply wait for a key, but not use its value.
+// @note   Work like a pause.
 void CFW_WaitKey(void) {
 	DrawDebug(1,"");
 	DrawDebug(1,"Press key to continue");
 	HidWaitForInput();
 }
 
+// @breif  This reads the system version from the configuration file.
+// @note   So please make sure you've have the file in your SD.
+//         Also, if we use binary data to store the system version..
 void CFW_getSystemVersion(void) {
 	char settings[16];
 	if (FSFileOpen("/3ds/PastaCFW/system.txt")){
@@ -61,11 +70,11 @@ void CFW_getSystemVersion(void) {
     		cfw_FWString = platform_FWStrings[10];
     		break;
 	}
-
 	//Check if to use the ARM9 Dumper
 	if (settings[2] == '1') cfw_arm9dump = true;
 }
 
+// @breif  Patch the offsets to pass the signs.
 void CFW_SecondStage(void) {
     u8 patchO0[] = { 0x00, 0x20, 0x3B, 0xE0 };
 	u8 patchO1[] = { 0x00, 0x20, 0x08, 0xE0 };
@@ -126,6 +135,7 @@ void CFW_SecondStage(void) {
 	DrawDebug(1,"Apply patch for type %c...                  Done!", cfw_FWValue);
 }
 
+// @breif  Dump ARM9 Ram to file.
 void CFW_ARM9Dumper(void) {
 	DrawDebug(1,"");
 	DrawDebug(1,"");
@@ -163,6 +173,7 @@ void CFW_ARM9Dumper(void) {
 	}
 }
 
+// @breif  Main routine surely.
 int main(void) {
 	//BOOT
 	DrawClearScreenAll();
