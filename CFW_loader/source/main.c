@@ -27,39 +27,39 @@ void CFW_getSystemVersion(void) {
 	}
     cfw_FWValue = settings[0];
 	switch (settings[0]) {
-	case '1': // 4.x
-		cfw_FWString = platform_FWStrings[0];
-		break;
-	case '2': // 5.0
-		cfw_FWString = platform_FWStrings[1];
-		break;
-	case '3': // 5.1
-		cfw_FWString = platform_FWStrings[2];
-		break;
-	case '4': // 6.0
-		cfw_FWString = platform_FWStrings[3];
-		break;
-	case '5': // 6.1 - 6.3
-		cfw_FWString = platform_FWStrings[4];
-		break;
-	case '6': // 7.0-7.1
-		cfw_FWString = platform_FWStrings[5];
-		break;
-	case '7': // 7.2
-		cfw_FWString = platform_FWStrings[6];
-		break;
-	case '8': // 8.x
-		cfw_FWString = platform_FWStrings[7];
-		break;
-	case '9': // 9.x
-		cfw_FWString = platform_FWStrings[8];
-		break;
-	case 'a': // 8.x
-		cfw_FWString = platform_FWStrings[9];
-		break;
-	case 'b': // 9.x
-		cfw_FWString = platform_FWStrings[10];
-		break;
+    	case '1': // 4.x
+    		cfw_FWString = platform_FWStrings[0];
+    		break;
+    	case '2': // 5.0
+    		cfw_FWString = platform_FWStrings[1];
+    		break;
+    	case '3': // 5.1
+    		cfw_FWString = platform_FWStrings[2];
+    		break;
+    	case '4': // 6.0
+    		cfw_FWString = platform_FWStrings[3];
+    		break;
+    	case '5': // 6.1 - 6.3
+    		cfw_FWString = platform_FWStrings[4];
+    		break;
+    	case '6': // 7.0-7.1
+    		cfw_FWString = platform_FWStrings[5];
+    		break;
+    	case '7': // 7.2
+    		cfw_FWString = platform_FWStrings[6];
+    		break;
+    	case '8': // 8.x
+    		cfw_FWString = platform_FWStrings[7];
+    		break;
+    	case '9': // 9.x
+    		cfw_FWString = platform_FWStrings[8];
+    		break;
+    	case 'a': // 8.x
+    		cfw_FWString = platform_FWStrings[9];
+    		break;
+    	case 'b': // 9.x
+    		cfw_FWString = platform_FWStrings[10];
+    		break;
 	}
 
 	//Check if to use the ARM9 Dumper
@@ -75,50 +75,54 @@ void CFW_SecondStage(void) {
 	u8 patchN3[] = { 0x5A, 0xC5, 0x73, 0xC1 };
 	//Apply patches
 	DrawDebug(0,"Apply patch for type %c...", cfw_FWValue);
-	if (cfw_FWValue == '1'){ // 4.x
-		memcpy((u32*)0x080549C4, patchO0, 4);
-		memcpy((u32*)0x0804239C, patchO1, 4);
-	}
-	else if (cfw_FWValue == '2'){ // 5.0
-		memcpy((u32*)0x08051650, patchO0, 4);
-		memcpy((u32*)0x0803C838, patchO1, 4);
-	}
-	else if (cfw_FWValue == '3'){ // 5.1
-		memcpy((u32*)0x0805164C, patchO0, 4);
-		memcpy((u32*)0x0803C838, patchO1, 4);
-	}
-	else if (cfw_FWValue == '4'){ // 6.0
-		memcpy((u32*)0x0805235C, patchO0, 4);
-		memcpy((u32*)0x08057FE4, patchO1, 4);
-	}
-	else if (cfw_FWValue == '5'){ // 6.1 - 6.3
-		memcpy((u32*)0x08051B5C, patchO0, 4);
-		memcpy((u32*)0x08057FE4, patchO1, 4);
-	}
-	else if (cfw_FWValue == '6'){ // 7.0-7.1
-		memcpy((u32*)0x080521C4, patchO0, 4);
-		memcpy((u32*)0x08057E98, patchO1, 4);
-	}
-	else if (cfw_FWValue == '7'){ // 7.2
-		memcpy((u32*)0x080521C8, patchO0, 4);
-		memcpy((u32*)0x08057E9C, patchO1, 4);
-	}
-	else if (cfw_FWValue == '8'){ // 8.x
-		memcpy((u32*)0x080523C4, patchO0, 4);
-		memcpy((u32*)0x08058098, patchO1, 4);
-	}
-	else if (cfw_FWValue == '9'){ // 9.x
-		memcpy((u32*)0x0805235C, patchO0, 4);
-		memcpy((u32*)0x08058100, patchO1, 4);
-	}
-	else if (cfw_FWValue == 'a'){ // 8.x
-		memcpy((u32*)0x08053114, patchN0, 4);
-		memcpy((u32*)0x080587E0, patchN1, 4);
-	}
-	else if (cfw_FWValue == 'b'){ // 9.x
-		memcpy((u32*)0x08052FD8, patchN2, 4);
-		memcpy((u32*)0x08058804, patchN3, 4);
-	}
+    switch(cfw_FWValue) {
+        //Old-3DS
+    	case '1': // 4.x
+    		memcpy((u32*)0x080549C4, patchO0, 4);
+    		memcpy((u32*)0x0804239C, patchO1, 4);
+    		break;
+    	case '2': // 5.0
+    		memcpy((u32*)0x08051650, patchO0, 4);
+    		memcpy((u32*)0x0803C838, patchO1, 4);
+    		break;
+    	case '3': // 5.1
+    		memcpy((u32*)0x0805164C, patchO0, 4);
+    		memcpy((u32*)0x0803C838, patchO1, 4);
+    		break;
+    	case '4': // 6.0
+    		memcpy((u32*)0x0805235C, patchO0, 4);
+    		memcpy((u32*)0x08057FE4, patchO1, 4);
+    		break;
+    	case '5': // 6.1 - 6.3
+    		memcpy((u32*)0x08051B5C, patchO0, 4);
+    		memcpy((u32*)0x08057FE4, patchO1, 4);
+    		break;
+    	case '6': // 7.0-7.1
+    		memcpy((u32*)0x080521C4, patchO0, 4);
+    		memcpy((u32*)0x08057E98, patchO1, 4);
+    		break;
+    	case '7': // 7.2
+    		memcpy((u32*)0x080521C8, patchO0, 4);
+    		memcpy((u32*)0x08057E9C, patchO1, 4);
+    		break;
+    	case '8': // 8.x
+    		memcpy((u32*)0x080523C4, patchO0, 4);
+    		memcpy((u32*)0x08058098, patchO1, 4);
+    		break;
+    	case '9': // 9.x
+    		memcpy((u32*)0x0805235C, patchO0, 4);
+    		memcpy((u32*)0x08058100, patchO1, 4);
+    		break;
+        //New-3DS
+    	case 'a': // 8.x
+    		memcpy((u32*)0x08053114, patchN0, 4);
+    		memcpy((u32*)0x080587E0, patchN1, 4);
+    		break;
+    	case 'b': // 9.x
+    		memcpy((u32*)0x08052FD8, patchN2, 4);
+    		memcpy((u32*)0x08058804, patchN3, 4);
+    		break;
+    }
 	DrawDebug(1,"Apply patch for type %c...                  Done!", cfw_FWValue);
 }
 
