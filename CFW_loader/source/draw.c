@@ -48,8 +48,8 @@ void DrawCharacter(unsigned char *screen, int character, int x, int y, int color
 
 void DrawString(unsigned char *screen, const char *str, int x, int y, int color, int bgcolor)
 {
-    int i;
-    for (i = 0; i < strlen(str); i++)
+    u32 i = 0, len = strlen(str);
+    for (i = 0; i < len; i++)
         DrawCharacter(screen, str[i], x + i * 8, y, color, bgcolor);
 }
 
