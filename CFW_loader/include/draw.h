@@ -2,12 +2,16 @@
 
 #include "common.h"
 
+//It used 24 bits color, so 1 pixel = 3 Bytes.
 #define SCREEN_BYTES_PER_PIXEL 3
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 400
-
+//This is the buffer area size of a screen in bytes.
 #define SCREEN_SIZE (BYTES_PER_PIXEL * SCREEN_WIDTH * SCREEN_HEIGHT)
 
+// @breif  Construct a RGB value.
+// @param  r, g, b. Red, Green, Blue.
+// @retval a u32 RGB value.
 #define RGB(r,g,b) (r<<24|b<<16|g<<8|r)
 
 #define SCREEN_AREA_TOP0 (u8*)(0x20000000)

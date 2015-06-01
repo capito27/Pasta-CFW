@@ -8,6 +8,11 @@
 
 u32 drawInternalY = 0;
 
+// @breif  Clear the target screen - fill it with pure color.
+// @param  screenArea Pointer to the target screen. should be one of 
+//                  SCREEN_PTR_TOP0,SCREEN_PTR_TOP1,SCREEN_PTR_BOT0,SCREEN_PTR_BOT1.
+// @param  color    RGB color, constructed using the macro RGB(r,g,b).
+// @note   Painting the pixel one after one would be a little slow, however very easy..
 void DrawClearScreen(u8 *screenArea, int color) {
     u32 i = 0;
     u8 colorR = color & 0xFF, colorG = color >> 8, colorB = color >> 16;
@@ -19,6 +24,8 @@ void DrawClearScreen(u8 *screenArea, int color) {
     }
 }
 
+// @breif  Clear all the screens.
+// @note   This would reset the Y position for text drawing.
 void DrawClearScreenAll(void) {
 	DrawClearScreen(SCREEN_AREA_TOP0, RGB(0, 0, 0));
 	DrawClearScreen(SCREEN_AREA_TOP1, RGB(0, 0, 0));
@@ -27,6 +34,14 @@ void DrawClearScreenAll(void) {
 	drawInternalY = 0;
 }
 
+// @breif  Draw a character to the desired Position, with defined Foreground & Background Color.
+// @param  screenArea Pointer to the target screen. should be one of 
+//                              SCREEN_PTR_TOP0,SCREEN_PTR_TOP1,SCREEN_PTR_BOT0,SCREEN_PTR_BOT1.
+// @param  character            the char you wanna draw.
+// @param  x, y                 where the character supposed to be.
+// @param  foreColor, backColor RGB color, constructed using the macro RGB(r,g,b).
+//                              One for foreground and another for background.
+// @note   screen buffer is filled in column after another not row after row. May look weird.
 void DrawCharacter(u8 *screenArea, const char character, u32 x, u32 y, u32 foreColor, u32 backColor) {
     u8 fontY = 0, fontX = 0, fontCache = 0;
     u32 offsetX = 0, offsetY = 0;
@@ -53,12 +68,26 @@ void DrawCharacter(u8 *screenArea, const char character, u32 x, u32 y, u32 foreC
     }
 }
 
+// @breif  Draw a string to the desired Position, with defined Foreground & Background Color.
+// @param  screenArea           Pointer to the target screen. should be one of 
+//                              SCREEN_PTR_TOP0,SCREEN_PTR_TOP1,SCREEN_PTR_BOT0,SCREEN_PTR_BOT1.
+// @param  str                  the string you wanna draw.
+// @param  x, y                 where the character supposed to be.
+// @param  foreColor, backColor RGB color, constructed using the macro RGB(r,g,b).
+//               One for foreground and another for background.
 void DrawString(u8 *screenArea, const char *str, u32 x, u32 y, u32 foreColor, u32 backColor) {
     u8 i = 0, len = strlen(str);
     for (i = 0; i < len; i++)
         DrawCharacter(screenArea, str[i], x + i * 8, y, foreColor, backColor);
 }
 
+// @breif  Draw a string with format to the desired Position, with defined Foreground & Background Color.
+// @param  newline print a new line, if not zero.
+// @param  x, y    where the character supposed to be.
+// @param  format  Similar as snprintf, printf..
+// @note   Used vsnprintf. So you can use this like printf.
+//         You can not use format with more than 256 bytes.
+//         Always write to Top screen, Black with White background.
 void DrawStringFormat(u8 newline, u8 debug, u32 x, u32 y, const char *format, ...) {
     char str[256];
     va_list va;
@@ -77,6 +106,10 @@ void DrawStringFormat(u8 newline, u8 debug, u32 x, u32 y, const char *format, ..
     if (newline) drawInternalY += 10;
 }
 
+// @breif  Draw a string with format to the desired Position, with defined Foreground & Background Color.
+// @param  newline print a new line, if not zero.
+// @param  format  Similar as snprintf, printf..
+// @note   All similar as DrawStringFormat.. Maybe we should use that instead one day.
 void DrawDebug(u8 newline, const char *format, ...) {
     char str[256];
     va_list va;
