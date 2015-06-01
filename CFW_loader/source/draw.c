@@ -24,7 +24,7 @@ void DrawCharacter(unsigned char *screen, int character, int x, int y, int color
 {
     int yy, xx;
     u8 foreColorR = color & 0xFF, foreColorG = color >> 8, foreColorB = color >> 16;
-    u8 backColorR = bgcolor & 0xFF, backColorG = bgcolor >> 8, backColorB = color >> 16;
+    u8 backColorR = bgcolor & 0xFF, backColorG = bgcolor >> 8, backColorB = bgcolor >> 16;
     for (yy = 0; yy < 8; yy++) {
         int xDisplacement = (x * BYTES_PER_PIXEL * SCREEN_WIDTH);
         int yDisplacement = ((SCREEN_WIDTH - (y + yy) - 1) * BYTES_PER_PIXEL);
