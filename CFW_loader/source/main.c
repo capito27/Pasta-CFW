@@ -14,8 +14,8 @@ void ioDelay(u32);
 bool dump_arm9;
 
 void wait_key() {
-	Debug("");
-	Debug("Press key to continue");
+	DrawDebug(1,"");
+	DrawDebug(1,"Press key to continue");
 	InputWait();
 }
 
@@ -88,7 +88,7 @@ void bootCFW_SecondStage()
 	u8 patch4[] = { 0x6D, 0x20, 0xCE, 0x77 };
 	u8 patch5[] = { 0x5A, 0xC5, 0x73, 0xC1 };
 	//Apply patches
-	DebugNoNewLine("Apply patch for type %c...", type);
+	DrawDebug(0,"Apply patch for type %c...", type);
 	if (type == '1'){ // 4.x
 		memcpy((u32*)0x080549C4, patch, 4);
 		memcpy((u32*)0x0804239C, patch1, 4);
@@ -133,22 +133,22 @@ void bootCFW_SecondStage()
 		memcpy((u32*)0x08052FD8, patch4, 4);
 		memcpy((u32*)0x08058804, patch5, 4);
 	}
-	Debug("Apply patch for type %c...                  Done!", type);
+	DrawDebug(1,"Apply patch for type %c...                  Done!", type);
 }
 
 void arm9dumper()
 {
-	Debug("");
-	Debug("");
-	Debug("");
-	Debug("---------------- ARM9 RAM DUMPER ---------------");
-	Debug("");
-	DebugNoNewLine("Press A to DUMP, B to skip.");
+	DrawDebug(1,"");
+	DrawDebug(1,"");
+	DrawDebug(1,"");
+	DrawDebug(1,"---------------- ARM9 RAM DUMPER ---------------");
+	DrawDebug(1,"");
+	DrawDebug(0,"Press A to DUMP, B to skip.");
 
 	u32 pad_state = InputWait();
 
 
-	if (pad_state & BUTTON_B)Debug("Skipping...");
+	if (pad_state & BUTTON_B)DrawDebug(1,"Skipping...");
 	else
 	{
 		u32 written = 0;
@@ -165,14 +165,14 @@ void arm9dumper()
 				written = FSFileWrite((u8 *)addr + total, num, total);
 				if (written != num) break;
 				total += written;
-				DebugNoNewLine("Dumping:                         %07d/%d", total, size);
+				DrawDebug(0,"Dumping:                         %07d/%d", total, size);
 			}
 			FSFileClose();
 			result = (size == total);
 		}
-		Debug("");
-		Debug("");
-		Debug("Dump %s! Press any key to boot CFW.", result ? "finished" : "failed");
+		DrawDebug(1,"");
+		DrawDebug(1,"");
+		DrawDebug(1,"Dump %s! Press any key to boot CFW.", result ? "finished" : "failed");
 		InputWait();
 	}
 }
@@ -181,18 +181,18 @@ int main() {
 
 	//BOOT
 	DrawClearScreenAll();
-	Debug("--------------- PASTA CFW LOADER ---------------");
-	Debug("");
-	DebugNoNewLine("Initializing FS...");
+	DrawDebug(1,"--------------- PASTA CFW LOADER ---------------");
+	DrawDebug(1,"");
+	DrawDebug(0,"Initializing FS...");
 	FSInit();
-	Debug("Initializing FS...                         Done!");
-	Debug("");
-	DebugNoNewLine("Getting system information...");
+	DrawDebug(1,"Initializing FS...                         Done!");
+	DrawDebug(1,"");
+	DrawDebug(0,"Getting system information...");
 	getSystemVersion();
-	Debug("Getting system information...              Done!");
-	Debug("");
-	Debug("Your system is %s", systemVersion);
-	Debug("");
+	DrawDebug(1,"Getting system information...              Done!");
+	DrawDebug(1,"");
+	DrawDebug(1,"Your system is %s", systemVersion);
+	DrawDebug(1,"");
 	bootCFW_SecondStage();
 	if (dump_arm9 == true)arm9dumper();
 

@@ -6,7 +6,7 @@
 #include "font.h"
 #include "draw.h"
 
-int drawInternalY = 0;
+u32 drawInternalY = 0;
 
 void DrawClearScreen(u8 *screenArea, int color) {
     u32 i = 0;
@@ -53,28 +53,31 @@ void DrawCharacter(u8 *screenArea, const char character, u32 x, u32 y, u32 foreC
     }
 }
 
-void DrawString(u8 *screenArea, const char *str, u32 x, u32 y, u32 foreColor, u32 backColor)
-{
-    u32 i = 0, len = strlen(str);
+void DrawString(u8 *screenArea, const char *str, u32 x, u32 y, u32 foreColor, u32 backColor) {
+    u8 i = 0, len = strlen(str);
     for (i = 0; i < len; i++)
         DrawCharacter(screenArea, str[i], x + i * 8, y, foreColor, backColor);
 }
 
-void DrawStringF(int x, int y, const char *format, ...)
-{
+void DrawStringFormat(u8 newline, u8 debug, u32 x, u32 y, const char *format, ...) {
     char str[256];
     va_list va;
 
     va_start(va, format);
     vsnprintf(str, 256, format, va);
     va_end(va);
-
-    DrawString(SCREEN_AREA_TOP0, str, x, y, RGB(0, 0, 0), RGB(255, 255, 255));
-    DrawString(SCREEN_AREA_TOP1, str, x, y, RGB(0, 0, 0), RGB(255, 255, 255));
+    if (debug) {
+        DrawString(SCREEN_AREA_TOP0, str, 10, drawInternalY, RGB(255, 255, 255), RGB(0, 0, 0));
+        DrawString(SCREEN_AREA_TOP1, str, 10, drawInternalY, RGB(255, 255, 255), RGB(0, 0, 0));
+    } else {
+        DrawString(SCREEN_AREA_TOP0, str, x, y, RGB(0, 0, 0), RGB(255, 255, 255));
+        DrawString(SCREEN_AREA_TOP1, str, x, y, RGB(0, 0, 0), RGB(255, 255, 255));
+    }
+    
+    if (newline) drawInternalY += 10;
 }
 
-void Debug(const char *format, ...)
-{
+void DrawDebug(u8 newline, const char *format, ...) {
     char str[256];
     va_list va;
 
@@ -82,21 +85,8 @@ void Debug(const char *format, ...)
     vsnprintf(str, 256, format, va);
     va_end(va);
 
-    DrawString(SCREEN_AREA_TOP0, str, 10, drawInternalY, RGB(255, 255, 255), RGB(0,0, 0));
+    DrawString(SCREEN_AREA_TOP0, str, 10, drawInternalY, RGB(255, 255, 255), RGB(0, 0, 0));
     DrawString(SCREEN_AREA_TOP1, str, 10, drawInternalY, RGB(255, 255, 255), RGB(0, 0, 0));
 
-    drawInternalY += 10;
-}
-
-void DebugNoNewLine(const char *format, ...)
-{
-	char str[256];
-	va_list va;
-
-	va_start(va, format);
-	vsnprintf(str, 256, format, va);
-	va_end(va);
-
-	DrawString(SCREEN_AREA_TOP0, str, 10, drawInternalY, RGB(255, 255, 255), RGB(0, 0, 0));
-	DrawString(SCREEN_AREA_TOP1, str, 10, drawInternalY, RGB(255, 255, 255), RGB(0, 0, 0));
+    if (newline) drawInternalY += 10;
 }

@@ -14,19 +14,17 @@
 #define SCREEN_AREA_TOP1 (u8*)(0x20046500)
 #define SCREEN_AREA_BOT0 (u8*)(0x2008CA00)
 #define SCREEN_AREA_BOT1 (u8*)(0x200C4E00)
-extern int current_y;
+extern u32 drawInternalY;
 
 void DrawClearScreen(u8 *screenArea, int color);
 void DrawClearScreenAll(void);
 
 void DrawCharacter(u8 *screenArea, const char character, u32 x, u32 y, u32 foreColor, u32 backColor);
 void DrawString(u8 *screenArea, const char *str, u32 x, u32 y, u32 foreColor, u32 backColor);
-
-void Debug(const char *format, ...);
-void DebugNoNewLine(const char *format, ...);
+void DrawDebug(u8 newline, const char *format, ...);
 
 //Unused.
-void DrawStringFormat(uint8_t newline, uint8_t debug, uint32_t x, uint32_t y, const char *format, ...);
+void DrawStringFormat(u8 newline, u8 debug, u32 x, u32 y, const char *format, ...);
 
 //Un-implemented.
 //void DrawHex(uint8_t *screenArea, unsigned int hex, u32 x, u32 y, u32 foreColor, u32 backColor);
