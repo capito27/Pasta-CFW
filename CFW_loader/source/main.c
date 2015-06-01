@@ -39,47 +39,47 @@ void getSystemVersion()
 	{
 	case '1': // 4.x
 		type = '1';
-		systemVersion = "Old 3DS V. 4.1 - 4.5";
+		systemVersion = platform_FWStrings[0];
 		break;
 	case '2': // 5.0
 		type = '2';
-		systemVersion = "Old 3DS V. 5.0";
+		systemVersion = platform_FWStrings[1];
 		break;
 	case '3': // 5.1
 		type = '3';
-		systemVersion = "Old 3DS V. 5.1";
+		systemVersion = platform_FWStrings[2];
 		break;
 	case '4': // 6.0
 		type = '4';
-		systemVersion = "Old 3DS V. 6.0";
+		systemVersion = platform_FWStrings[3];
 		break;
 	case '5': // 6.1 - 6.3
 		type = '5';
-		systemVersion = "Old 3DS V. 6.1 - 6.3";
+		systemVersion = platform_FWStrings[4];
 		break;
 	case '6': // 7.0-7.1
 		type = '6';
-		systemVersion = "Old 3DS V. 7.0 - 7.1";
+		systemVersion = platform_FWStrings[5];
 		break;
 	case '7': // 7.2
 		type = '7';
-		systemVersion = "Old 3DS V. 7.2";
+		systemVersion = platform_FWStrings[6];
 		break;
 	case '8': // 8.x
 		type = '8';
-		systemVersion = "Old 3DS V. 8.0 - 8.1";
+		systemVersion = platform_FWStrings[7];
 		break;
 	case '9': // 9.x
 		type = '9';
-		systemVersion = "Old 3DS V. 9.0 - 9.2";
+		systemVersion = platform_FWStrings[8];
 		break;
 	case 'a': // 8.x
 		type = 'a';
-		systemVersion = "New 3DS V. 8.1";
+		systemVersion = platform_FWStrings[9];
 		break;
 	case 'b': // 9.x
 		type = 'b';
-		systemVersion = "New 3DS V. 9.0 - 9.2";
+		systemVersion = platform_FWStrings[10];
 		break;
 	}
 
