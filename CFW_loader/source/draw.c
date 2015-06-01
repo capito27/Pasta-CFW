@@ -11,11 +11,12 @@ int current_y = 0;
 void ClearScreen(unsigned char *screen, int color)
 {
     int i;
+    u8 colorR = color & 0xFF, colorG = color >> 8, colorB = color >> 16;
     unsigned char *screenPos = screen;
     for (i = 0; i < (SCREEN_HEIGHT * SCREEN_WIDTH); i++) {
-        *(screenPos++) = color >> 16;  // B
-        *(screenPos++) = color >> 8;   // G
-        *(screenPos++) = color & 0xFF; // R
+        *(screenPos++) = colorB;  // B
+        *(screenPos++) = colorG;   // G
+        *(screenPos++) = colorR; // R
     }
 }
 
