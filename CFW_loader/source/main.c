@@ -8,121 +8,121 @@
 #include "draw.h"
 
 //VARIABLES
-char* systemVersion;
-char type;
-void ioDelay(u32);
-bool dump_arm9;
+char* cfw_FWString;
+char cfw_FWValue;
+//void ioDelay(u32);
+bool cfw_arm9dump;
 
-void wait_key(void) {
+void CFW_WaitKey(void) {
 	DrawDebug(1,"");
 	DrawDebug(1,"Press key to continue");
 	HidWaitForInput();
 }
 
-void getSystemVersion(void) {
+void CFW_getSystemVersion(void) {
 	char settings[16];
 	if (FSFileOpen("/3ds/PastaCFW/system.txt")){
 		FSFileRead(settings, 16, 0);
 		FSFileClose();
 	}
-    type = settings[0];
+    cfw_FWValue = settings[0];
 	switch (settings[0]) {
 	case '1': // 4.x
-		systemVersion = platform_FWStrings[0];
+		cfw_FWString = platform_FWStrings[0];
 		break;
 	case '2': // 5.0
-		systemVersion = platform_FWStrings[1];
+		cfw_FWString = platform_FWStrings[1];
 		break;
 	case '3': // 5.1
-		systemVersion = platform_FWStrings[2];
+		cfw_FWString = platform_FWStrings[2];
 		break;
 	case '4': // 6.0
-		systemVersion = platform_FWStrings[3];
+		cfw_FWString = platform_FWStrings[3];
 		break;
 	case '5': // 6.1 - 6.3
-		systemVersion = platform_FWStrings[4];
+		cfw_FWString = platform_FWStrings[4];
 		break;
 	case '6': // 7.0-7.1
-		systemVersion = platform_FWStrings[5];
+		cfw_FWString = platform_FWStrings[5];
 		break;
 	case '7': // 7.2
-		systemVersion = platform_FWStrings[6];
+		cfw_FWString = platform_FWStrings[6];
 		break;
 	case '8': // 8.x
-		systemVersion = platform_FWStrings[7];
+		cfw_FWString = platform_FWStrings[7];
 		break;
 	case '9': // 9.x
-		systemVersion = platform_FWStrings[8];
+		cfw_FWString = platform_FWStrings[8];
 		break;
 	case 'a': // 8.x
-		systemVersion = platform_FWStrings[9];
+		cfw_FWString = platform_FWStrings[9];
 		break;
 	case 'b': // 9.x
-		systemVersion = platform_FWStrings[10];
+		cfw_FWString = platform_FWStrings[10];
 		break;
 	}
 
 	//Check if to use the ARM9 Dumper
-	if (settings[2] == '1') dump_arm9 = true;
+	if (settings[2] == '1') cfw_arm9dump = true;
 }
 
-void bootCFW_SecondStage(void) {
-	u8 patch[] = { 0x00, 0x20, 0x3B, 0xE0 };
-	u8 patch1[] = { 0x00, 0x20, 0x08, 0xE0 };
-	u8 patch2[] = { 0x01, 0x27, 0x1E, 0xF5 };
-	u8 patch3[] = { 0xB4, 0xF9, 0xD0, 0xAB };
-	u8 patch4[] = { 0x6D, 0x20, 0xCE, 0x77 };
-	u8 patch5[] = { 0x5A, 0xC5, 0x73, 0xC1 };
+void CFW_SecondStage(void) {
+    u8 patchO0[] = { 0x00, 0x20, 0x3B, 0xE0 };
+	u8 patchO1[] = { 0x00, 0x20, 0x08, 0xE0 };
+	u8 patchN0[] = { 0x01, 0x27, 0x1E, 0xF5 };
+	u8 patchN1[] = { 0xB4, 0xF9, 0xD0, 0xAB };
+	u8 patchN2[] = { 0x6D, 0x20, 0xCE, 0x77 };
+	u8 patchN3[] = { 0x5A, 0xC5, 0x73, 0xC1 };
 	//Apply patches
-	DrawDebug(0,"Apply patch for type %c...", type);
-	if (type == '1'){ // 4.x
-		memcpy((u32*)0x080549C4, patch, 4);
-		memcpy((u32*)0x0804239C, patch1, 4);
+	DrawDebug(0,"Apply patch for type %c...", cfw_FWValue);
+	if (cfw_FWValue == '1'){ // 4.x
+		memcpy((u32*)0x080549C4, patchO0, 4);
+		memcpy((u32*)0x0804239C, patchO1, 4);
 	}
-	else if (type == '2'){ // 5.0
-		memcpy((u32*)0x08051650, patch, 4);
-		memcpy((u32*)0x0803C838, patch1, 4);
+	else if (cfw_FWValue == '2'){ // 5.0
+		memcpy((u32*)0x08051650, patchO0, 4);
+		memcpy((u32*)0x0803C838, patchO1, 4);
 	}
-	else if (type == '3'){ // 5.1
-		memcpy((u32*)0x0805164C, patch, 4);
-		memcpy((u32*)0x0803C838, patch1, 4);
+	else if (cfw_FWValue == '3'){ // 5.1
+		memcpy((u32*)0x0805164C, patchO0, 4);
+		memcpy((u32*)0x0803C838, patchO1, 4);
 	}
-	else if (type == '4'){ // 6.0
-		memcpy((u32*)0x0805235C, patch, 4);
-		memcpy((u32*)0x08057FE4, patch1, 4);
+	else if (cfw_FWValue == '4'){ // 6.0
+		memcpy((u32*)0x0805235C, patchO0, 4);
+		memcpy((u32*)0x08057FE4, patchO1, 4);
 	}
-	else if (type == '5'){ // 6.1 - 6.3
-		memcpy((u32*)0x08051B5C, patch, 4);
-		memcpy((u32*)0x08057FE4, patch1, 4);
+	else if (cfw_FWValue == '5'){ // 6.1 - 6.3
+		memcpy((u32*)0x08051B5C, patchO0, 4);
+		memcpy((u32*)0x08057FE4, patchO1, 4);
 	}
-	else if (type == '6'){ // 7.0-7.1
-		memcpy((u32*)0x080521C4, patch, 4);
-		memcpy((u32*)0x08057E98, patch1, 4);
+	else if (cfw_FWValue == '6'){ // 7.0-7.1
+		memcpy((u32*)0x080521C4, patchO0, 4);
+		memcpy((u32*)0x08057E98, patchO1, 4);
 	}
-	else if (type == '7'){ // 7.2
-		memcpy((u32*)0x080521C8, patch, 4);
-		memcpy((u32*)0x08057E9C, patch1, 4);
+	else if (cfw_FWValue == '7'){ // 7.2
+		memcpy((u32*)0x080521C8, patchO0, 4);
+		memcpy((u32*)0x08057E9C, patchO1, 4);
 	}
-	else if (type == '8'){ // 8.x
-		memcpy((u32*)0x080523C4, patch, 4);
-		memcpy((u32*)0x08058098, patch1, 4);
+	else if (cfw_FWValue == '8'){ // 8.x
+		memcpy((u32*)0x080523C4, patchO0, 4);
+		memcpy((u32*)0x08058098, patchO1, 4);
 	}
-	else if (type == '9'){ // 9.x
-		memcpy((u32*)0x0805235C, patch, 4);
-		memcpy((u32*)0x08058100, patch1, 4);
+	else if (cfw_FWValue == '9'){ // 9.x
+		memcpy((u32*)0x0805235C, patchO0, 4);
+		memcpy((u32*)0x08058100, patchO1, 4);
 	}
-	else if (type == 'a'){ // 8.x
-		memcpy((u32*)0x08053114, patch2, 4);
-		memcpy((u32*)0x080587E0, patch3, 4);
+	else if (cfw_FWValue == 'a'){ // 8.x
+		memcpy((u32*)0x08053114, patchN0, 4);
+		memcpy((u32*)0x080587E0, patchN1, 4);
 	}
-	else if (type == 'b'){ // 9.x
-		memcpy((u32*)0x08052FD8, patch4, 4);
-		memcpy((u32*)0x08058804, patch5, 4);
+	else if (cfw_FWValue == 'b'){ // 9.x
+		memcpy((u32*)0x08052FD8, patchN2, 4);
+		memcpy((u32*)0x08058804, patchN3, 4);
 	}
-	DrawDebug(1,"Apply patch for type %c...                  Done!", type);
+	DrawDebug(1,"Apply patch for type %c...                  Done!", cfw_FWValue);
 }
 
-void arm9dumper(void) {
+void CFW_ARM9Dumper(void) {
 	DrawDebug(1,"");
 	DrawDebug(1,"");
 	DrawDebug(1,"");
@@ -131,29 +131,26 @@ void arm9dumper(void) {
 	DrawDebug(0,"Press A to DUMP, B to skip.");
 
 	u32 pad_state = HidWaitForInput();
-
-
-	if (pad_state & BUTTON_B)DrawDebug(1,"Skipping...");
-	else
-	{
-		u32 written = 0;
-		u32 total = 0;
+	if (pad_state & BUTTON_B) DrawDebug(1,"Skipping...");
+	else {
+		u32 bytesWritten = 0;
+		u32 currentWritten = 0;
 		u32 result = 0;
-		u32 num = 0;
-		void *addr = (void*)0x08000000;
-		u32 size = 0x00100000;
-		const u32 sz_chunk = 0x10000;
+		u32 currentSize = 0;
+		void *dumpAddr = (void*)0x08000000;
+		u32 fullSize = 0x00100000;
+		const u32 chunkSize = 0x10000;
 
 		if (FSFileCreate("/3ds/PastaCFW/RAM.bin", true)) {
-			while (total < size) {
-				num = size - total < sz_chunk ? size - total : sz_chunk;
-				written = FSFileWrite((u8 *)addr + total, num, total);
-				if (written != num) break;
-				total += written;
-				DrawDebug(0,"Dumping:                         %07d/%d", total, size);
+			while (currentWritten < fullSize) {
+				currentSize = fullSize - currentWritten < chunkSize ? fullSize - currentWritten : chunkSize;
+				bytesWritten = FSFileWrite((u8 *)dumpAddr + currentWritten, currentSize, currentWritten);
+				if (bytesWritten != currentSize) break;
+				currentWritten += bytesWritten;
+				DrawDebug(0,"Dumping:                         %07d/%d", currentWritten, fullSize);
 			}
 			FSFileClose();
-			result = (size == total);
+			result = (fullSize == currentWritten);
 		}
 		DrawDebug(1,"");
 		DrawDebug(1,"");
@@ -172,13 +169,13 @@ int main(void) {
 	DrawDebug(1,"Initializing FS...                         Done!");
 	DrawDebug(1,"");
 	DrawDebug(0,"Getting system information...");
-	getSystemVersion();
+	CFW_getSystemVersion();
 	DrawDebug(1,"Getting system information...              Done!");
 	DrawDebug(1,"");
-	DrawDebug(1,"Your system is %s", systemVersion);
+	DrawDebug(1,"Your system is %s", cfw_FWString);
 	DrawDebug(1,"");
-	bootCFW_SecondStage();
-	if (dump_arm9 == true)arm9dumper();
+	CFW_SecondStage();
+	if (cfw_arm9dump == true) CFW_ARM9Dumper();
 
 	// return control to FIRM ARM9 code (performs firmlaunch)
 	return 0;
