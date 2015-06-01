@@ -13,64 +13,51 @@ char type;
 void ioDelay(u32);
 bool dump_arm9;
 
-void wait_key() {
+void wait_key(void) {
 	DrawDebug(1,"");
 	DrawDebug(1,"Press key to continue");
 	HidWaitForInput();
 }
 
-void getSystemVersion()
-{
+void getSystemVersion(void) {
 	char settings[16];
 	if (FSFileOpen("/3ds/PastaCFW/system.txt")){
 		FSFileRead(settings, 16, 0);
 		FSFileClose();
 	}
-
-	switch (settings[0])
-	{
+    type = settings[0];
+	switch (settings[0]) {
 	case '1': // 4.x
-		type = '1';
 		systemVersion = platform_FWStrings[0];
 		break;
 	case '2': // 5.0
-		type = '2';
 		systemVersion = platform_FWStrings[1];
 		break;
 	case '3': // 5.1
-		type = '3';
 		systemVersion = platform_FWStrings[2];
 		break;
 	case '4': // 6.0
-		type = '4';
 		systemVersion = platform_FWStrings[3];
 		break;
 	case '5': // 6.1 - 6.3
-		type = '5';
 		systemVersion = platform_FWStrings[4];
 		break;
 	case '6': // 7.0-7.1
-		type = '6';
 		systemVersion = platform_FWStrings[5];
 		break;
 	case '7': // 7.2
-		type = '7';
 		systemVersion = platform_FWStrings[6];
 		break;
 	case '8': // 8.x
-		type = '8';
 		systemVersion = platform_FWStrings[7];
 		break;
 	case '9': // 9.x
-		type = '9';
 		systemVersion = platform_FWStrings[8];
 		break;
 	case 'a': // 8.x
-		type = 'a';
 		systemVersion = platform_FWStrings[9];
 		break;
 	case 'b': // 9.x
-		type = 'b';
 		systemVersion = platform_FWStrings[10];
 		break;
 	}
@@ -79,8 +66,7 @@ void getSystemVersion()
 	if (settings[2] == '1') dump_arm9 = true;
 }
 
-void bootCFW_SecondStage()
-{
+void bootCFW_SecondStage(void) {
 	u8 patch[] = { 0x00, 0x20, 0x3B, 0xE0 };
 	u8 patch1[] = { 0x00, 0x20, 0x08, 0xE0 };
 	u8 patch2[] = { 0x01, 0x27, 0x1E, 0xF5 };
@@ -136,8 +122,7 @@ void bootCFW_SecondStage()
 	DrawDebug(1,"Apply patch for type %c...                  Done!", type);
 }
 
-void arm9dumper()
-{
+void arm9dumper(void) {
 	DrawDebug(1,"");
 	DrawDebug(1,"");
 	DrawDebug(1,"");
@@ -177,8 +162,7 @@ void arm9dumper()
 	}
 }
 
-int main() {
-
+int main(void) {
 	//BOOT
 	DrawClearScreenAll();
 	DrawDebug(1,"--------------- PASTA CFW LOADER ---------------");
@@ -199,4 +183,3 @@ int main() {
 	// return control to FIRM ARM9 code (performs firmlaunch)
 	return 0;
 }
-
