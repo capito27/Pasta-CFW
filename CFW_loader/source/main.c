@@ -13,14 +13,6 @@ char type;
 void ioDelay(u32);
 bool dump_arm9;
 
-void ClearTop() {
-	ClearScreen(TOP_SCREEN0, RGB(0, 0, 0));
-	ClearScreen(TOP_SCREEN1, RGB(0, 0, 0));
-	ClearScreen(BOT_SCREEN0, RGB(0, 0, 0));
-	ClearScreen(BOT_SCREEN1, RGB(0, 0, 0));
-	current_y = 0;
-}
-
 void wait_key() {
 	Debug("");
 	Debug("Press key to continue");
@@ -188,7 +180,7 @@ void arm9dumper()
 int main() {
 
 	//BOOT
-	ClearTop();
+	DrawClearScreenAll();
 	Debug("--------------- PASTA CFW LOADER ---------------");
 	Debug("");
 	DebugNoNewLine("Initializing FS...");

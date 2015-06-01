@@ -8,7 +8,7 @@
 
 int current_y = 0;
 
-void ClearScreen(unsigned char *screen, int color)
+void DrawClearScreen(unsigned char *screen, int color)
 {
     int i;
     u8 colorR = color & 0xFF, colorG = color >> 8, colorB = color >> 16;
@@ -18,6 +18,14 @@ void ClearScreen(unsigned char *screen, int color)
         *(screenPos++) = colorG;   // G
         *(screenPos++) = colorR; // R
     }
+}
+
+void DrawClearScreenAll(void) {
+	DrawClearScreen(TOP_SCREEN0, RGB(0, 0, 0));
+	DrawClearScreen(TOP_SCREEN1, RGB(0, 0, 0));
+	DrawClearScreen(BOT_SCREEN0, RGB(0, 0, 0));
+	DrawClearScreen(BOT_SCREEN1, RGB(0, 0, 0));
+	current_y = 0;
 }
 
 void DrawCharacter(unsigned char *screen, int character, int x, int y, int color, int bgcolor)
