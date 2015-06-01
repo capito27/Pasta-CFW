@@ -30,9 +30,9 @@ void wait_key() {
 void getSystemVersion()
 {
 	char settings[16];
-	if (FileOpen("/3ds/PastaCFW/system.txt")){
-		FileRead(settings, 16, 0);
-		FileClose();
+	if (FSFileOpen("/3ds/PastaCFW/system.txt")){
+		FSFileRead(settings, 16, 0);
+		FSFileClose();
 	}
 
 	switch (settings[0])
@@ -167,15 +167,15 @@ void arm9dumper()
 		u32 size = 0x00100000;
 		const u32 sz_chunk = 0x10000;
 
-		if (FileCreate("/3ds/PastaCFW/RAM.bin", true)) {
+		if (FSFileCreate("/3ds/PastaCFW/RAM.bin", true)) {
 			while (total < size) {
 				num = size - total < sz_chunk ? size - total : sz_chunk;
-				written = FileWrite((u8 *)addr + total, num, total);
+				written = FSFileWrite((u8 *)addr + total, num, total);
 				if (written != num) break;
 				total += written;
 				DebugNoNewLine("Dumping:                         %07d/%d", total, size);
 			}
-			FileClose();
+			FSFileClose();
 			result = (size == total);
 		}
 		Debug("");
@@ -192,7 +192,7 @@ int main() {
 	Debug("--------------- PASTA CFW LOADER ---------------");
 	Debug("");
 	DebugNoNewLine("Initializing FS...");
-	InitFS();
+	FSInit();
 	Debug("Initializing FS...                         Done!");
 	Debug("");
 	DebugNoNewLine("Getting system information...");
