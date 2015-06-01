@@ -21,7 +21,7 @@ bool FileOpen(const char* path)
 {
 	unsigned flags = FA_READ | FA_WRITE | FA_OPEN_EXISTING;
 	bool ret = (f_open(&file, path, flags) == FR_OK);
-	f_lseek(&file, 0);
+	//f_lseek(&file, 0);
 	f_sync(&file);
 	return ret;
 }
@@ -31,7 +31,7 @@ bool FileCreate(const char* path, bool truncate)
 	unsigned flags = FA_READ | FA_WRITE;
 	flags |= truncate ? FA_CREATE_ALWAYS : FA_OPEN_ALWAYS;
 	bool ret = (f_open(&file, path, flags) == FR_OK);
-	f_lseek(&file, 0);
+	//f_lseek(&file, 0);
 	f_sync(&file);
 	return ret;
 }
