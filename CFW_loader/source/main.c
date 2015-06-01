@@ -98,70 +98,48 @@ void bootCFW_SecondStage()
 	//Apply patches
 	DebugNoNewLine("Apply patch for type %c...", type);
 	if (type == '1'){ // 4.x
-		u32 *dest = 0x080549C4;
-		u32 *dest1 = 0x0804239C;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x080549C4, patch, 4);
+		memcpy((u32*)0x0804239C, patch1, 4);
 	}
 	else if (type == '2'){ // 5.0
-		u32 *dest = 0x08051650;
-		u32 *dest1 = 0x0803C838;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x08051650, patch, 4);
+		memcpy((u32*)0x0803C838, patch1, 4);
 	}
 	else if (type == '3'){ // 5.1
-		u32 *dest = 0x0805164C;
-		u32 *dest1 = 0x0803C838;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x0805164C, patch, 4);
+		memcpy((u32*)0x0803C838, patch1, 4);
 	}
 	else if (type == '4'){ // 6.0
-		u32 *dest = 0x0805235C;
-		u32 *dest1 = 0x08057FE4;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x0805235C, patch, 4);
+		memcpy((u32*)0x08057FE4, patch1, 4);
 	}
 	else if (type == '5'){ // 6.1 - 6.3
-		u32 *dest = 0x08051B5C;
-		u32 *dest1 = 0x08057FE4;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x08051B5C, patch, 4);
+		memcpy((u32*)0x08057FE4, patch1, 4);
 	}
 	else if (type == '6'){ // 7.0-7.1
-		u32 *dest = 0x080521C4;
-		u32 *dest1 = 0x08057E98;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x080521C4, patch, 4);
+		memcpy((u32*)0x08057E98, patch1, 4);
 	}
 	else if (type == '7'){ // 7.2
-		u32 *dest = 0x080521C8;
-		u32 *dest1 = 0x08057E9C;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x080521C8, patch, 4);
+		memcpy((u32*)0x08057E9C, patch1, 4);
 	}
 	else if (type == '8'){ // 8.x
-		u32 *dest = 0x080523C4;
-		u32 *dest1 = 0x08058098;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x080523C4, patch, 4);
+		memcpy((u32*)0x08058098, patch1, 4);
 	}
 	else if (type == '9'){ // 9.x
-		u32 *dest = 0x0805235C;
-		u32 *dest1 = 0x08058100;
-		memcpy(dest, patch, 4);
-		memcpy(dest1, patch1, 4);
+		memcpy((u32*)0x0805235C, patch, 4);
+		memcpy((u32*)0x08058100, patch1, 4);
 	}
 	else if (type == 'a'){ // 8.x
-		u32 *dest = 0x08053114;
-		u32 *dest1 = 0x080587E0;
-		memcpy(dest, patch2, 4);
-		memcpy(dest1, patch3, 4);
+		memcpy((u32*)0x08053114, patch2, 4);
+		memcpy((u32*)0x080587E0, patch3, 4);
 	}
 	else if (type == 'b'){ // 9.x
-		u32 *dest = 0x08052FD8;
-		u32 *dest1 = 0x08058804;
-		memcpy(dest, patch4, 4);
-		memcpy(dest1, patch5, 4);
+		memcpy((u32*)0x08052FD8, patch4, 4);
+		memcpy((u32*)0x08058804, patch5, 4);
 	}
 	Debug("Apply patch for type %c...                  Done!", type);
 }
@@ -185,7 +163,7 @@ void arm9dumper()
 		u32 total = 0;
 		u32 result = 0;
 		u32 num = 0;
-		void *addr = 0x08000000;
+		void *addr = (void*)0x08000000;
 		u32 size = 0x00100000;
 		const u32 sz_chunk = 0x10000;
 
