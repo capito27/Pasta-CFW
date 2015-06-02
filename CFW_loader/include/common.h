@@ -17,20 +17,22 @@
 #define vu32 volatile u32
 #define vu64 volatile u64
 
+// [Unused] Get bigger integer.
 inline int maxi(int a, int b) {
     return a > b ? a : b;
 }
+// [Unused] Get smaller integer.
 inline int mini(int a, int b) {
     return a < b ? a : b;
 }
-
+// [Unused] Uppercase a string.
 inline char* strupper(const char* str) {
     char* buffer = (char*)malloc(strlen(str) + 1);
     for (int i = 0; i < strlen(str); ++i)
         buffer[i] = toupper((unsigned)str[i]);
     return buffer;
 }
-
+// [Unused] Lowercase a string.
 inline char* strlower(const char* str) {
     char* buffer = (char*)malloc(strlen(str) + 1);
     for (int i = 0; i < strlen(str); ++i)
