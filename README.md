@@ -4,14 +4,14 @@
 
 ### Version 1.3
 
--Moved the GUI code to arm9
--UI completely redesigned
--Added config app inside the CFW_Launcher: you can edit settings without the companion, directly on your 3DS!
--Added Nand Dumper!
--Added ARM9 dumper interface
--Added FIRMLAUNCH!
--Added FIRM downloader inside PC Companion App (windows only, for now)
--A lot of code cleanup
+-Moved the GUI code to arm9<br />
+-UI completely redesigned<br />
+-Added config app inside the CFW_Launcher: you can edit settings without the companion, directly on your 3DS!<br />
+-Added Nand Dumper!<br />
+-Added ARM9 dumper interface<br />
+-Added FIRMLAUNCH!<br />
+-Added FIRM downloader inside PC Companion App (windows only, for now)<br />
+-A lot of code cleanup<br />
 
 ##Version 1.2.1
 
