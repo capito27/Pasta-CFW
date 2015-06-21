@@ -351,7 +351,7 @@ void CFW_Settings(void)
 	bool enable_firmlaunch = false;
 	char settings[3];
 	if (FSFileOpen("/3ds/PastaCFW/system.txt")){
-		FSFileRead(settings, 16, 0);
+		FSFileRead(settings, 3, 0);
 		FSFileClose();
 		if (settings[1] == '2')autobootgui = true;
 		if (settings[2] == '1')enable_firmlaunch = true;
