@@ -176,7 +176,7 @@ void PrepareFirmLaunch(void)
 void CFW_SecondStage(void) {
 	//Firm launch part
 	//Check if firm.bin exists
-	if (FSFileOpen("/3ds/PastaCFW/firm.bin"))
+	if (FSFileOpen("/3ds/PastaCFW/firm.bin") && cfw_enablefirmlaunch)
 	{
 		FSFileClose();
 		if (Platform_CheckUnit() == PLATFORM_N3DS)

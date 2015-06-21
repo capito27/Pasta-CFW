@@ -23,7 +23,7 @@ bool showcredits;
 //Config values
 char type = '0';
 char auto_boot = '0';
-char arm9_dumper = '0';
+char firmlaunch = '0';
 
 //For clock
 #define SECONDS_IN_DAY 86400
@@ -49,14 +49,17 @@ void loadConfiguration() //Here we load the system.txt file, so that we can get 
 		fclose(cfg);
 	}
 	auto_boot = buffer[1]; //we read the values
+	firmlaunch = buffer[2];
+	
 }
 
 void saveConfiguration()
 {
 	//We save the configuration file, now it includes the detected firmware type
-	char buffer[]="01";
+	char buffer[]="011";
 	buffer[0] = type;
 	buffer[1] = auto_boot;
+	buffer[2] = firmlaunch; 
 	FILE *f = fopen("/3ds/PastaCFW/system.txt", "w+");
 	fprintf(f, "%s", buffer);
 	fclose(f);
