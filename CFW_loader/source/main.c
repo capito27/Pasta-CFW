@@ -375,6 +375,7 @@ void CFW_Settings(void)
 
 			       if (i == 0)DrawSettingsDebug(1, "%s Always boot the GUI         <%s>", beg, autobootgui ? "YES" : "NO ");
 			  else if (i == 1)DrawSettingsDebug(1, "%s Enable FirmLaunch           <%s>", beg, enable_firmlaunch ? "YES" : "NO ");
+			  DrawDebug(1, 1, "");
 		}
 
 		//APP CONTROLS
@@ -395,7 +396,7 @@ void CFW_Settings(void)
 			tobewritten[1] = autobootgui ? '2' : '1';
 			tobewritten[2] = enable_firmlaunch ? '1' : '0';
 			cfw_enablefirmlaunch = enable_firmlaunch;
-			FSFileWrite(tobewritten, 2, 0);
+			FSFileWrite(tobewritten, 3, 0);
 			FSFileClose();
 			break;
 		}
