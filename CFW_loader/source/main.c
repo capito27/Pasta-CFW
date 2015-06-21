@@ -14,6 +14,8 @@ char* cfw_FWString;
 char cfw_FWValue;
 //This is related to the ui autoboot
 bool cfw_bootGUI;
+//If enables firmlaunch
+bool cfw_enablefirmlaunch;
 //if true, perform firmlaunch
 bool firmlaunch;
 //if true, the 7X key is needed to perform a firmlaunch
@@ -25,7 +27,7 @@ firmHdr firm;
 int menu_idx = 0;
 int settings_idx = 0;
 #define MENU_ITEMS 7
-#define SETTINGS_ITEMS 1
+#define SETTINGS_ITEMS 2
 int TOP_Current = 0;
 
 //needed for the nand dumper
@@ -101,8 +103,10 @@ void CFW_getSystemVersion(void) {
 		cfw_FWString = platform_FWStrings[10];
 		break;
 	}
-	//Check if to use the ARM9 Dumper
+	//Check if to boot the GUI
 	if (settings[1] == '0' || settings[1] == '2') cfw_bootGUI = true;
+	//Check if firmlaunch is enabled
+	if (settings[2] == '1') cfw_enablefirmlaunch = true;
 }
 
 // @breif Initialize N3DS keys
@@ -344,11 +348,13 @@ void CFW_Settings(void)
 	TOP_Current = 0;
 	int settings_idx = 0;
 	bool autobootgui = false;
-	char settings[2];
+	bool enable_firmlaunch = false;
+	char settings[3];
 	if (FSFileOpen("/3ds/PastaCFW/system.txt")){
 		FSFileRead(settings, 16, 0);
 		FSFileClose();
 		if (settings[1] == '2')autobootgui = true;
+		if (settings[2] == '1')enable_firmlaunch = true;
 	}
 	while (true)
 	{
@@ -368,7 +374,7 @@ void CFW_Settings(void)
 			else beg = "  ";
 
 			       if (i == 0)DrawSettingsDebug(1, "%s Always boot the GUI         <%s>", beg, autobootgui ? "YES" : "NO ");
-			//else if (i == 1)DrawSettingsDebug(1, "%s Option 2                    <%s>", beg, option2 ? "YES" : "NO ");
+			  else if (i == 1)DrawSettingsDebug(1, "%s Enable FirmLaunch           <%s>", beg, enable_firmlaunch ? "YES" : "NO ");
 		}
 
 		//APP CONTROLS
@@ -378,14 +384,17 @@ void CFW_Settings(void)
 		else if (pad_state & BUTTON_LEFT || pad_state & BUTTON_RIGHT)
 		{
 			if (settings_idx == 0) autobootgui = !autobootgui; //autobootgui settings
+			else if (settings_idx == 1) enable_firmlaunch = !enable_firmlaunch; //autobootgui settings
 		}
 		else if (pad_state & BUTTON_A)
 		{
 			//SAVE SETTINGS
 			FSFileOpen("/3ds/PastaCFW/system.txt");
-			char tobewritten[2];
+			char tobewritten[3];
 			tobewritten[0] = cfw_FWValue;
 			tobewritten[1] = autobootgui ? '2' : '1';
+			tobewritten[2] = enable_firmlaunch ? '1' : '0';
+			cfw_enablefirmlaunch = enable_firmlaunch;
 			FSFileWrite(tobewritten, 2, 0);
 			FSFileClose();
 			break;
@@ -456,7 +465,7 @@ int main(void) {
 		}
 	}
 	else CFW_Boot(); //else directly boot the cfw
-	if (firmlaunch == true) FirmLaunch();
+	if (firmlaunch == true && cfw_enablefirmlaunch) FirmLaunch();
 
 	// return control to FIRM ARM9 code (performs firmlaunch)
 	return 0;
