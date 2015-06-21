@@ -2,6 +2,17 @@
 
 [![Join the chat at https://gitter.im/capito27/Pasta-CFW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/capito27/Pasta-CFW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+### Version 1.3
+
+-Moved the GUI code to arm9
+-UI completely redesigned
+-Added config app inside the CFW_Launcher: you can edit settings without the companion, directly on your 3DS!
+-Added Nand Dumper!
+-Added ARM9 dumper interface
+-Added FIRMLAUNCH!
+-Added FIRM downloader inside PC Companion App (windows only, for now)
+-A lot of code cleanup
+
 ##Version 1.2.1
 
 ###Changelog :
