@@ -71,18 +71,23 @@ void CFW_getSystemVersion(void) {
 	switch (settings[0]) {
 	case '1': // 4.x
 		cfw_FWString = platform_FWStrings[0];
+		key7Xneeded = true;
 		break;
 	case '2': // 5.0
 		cfw_FWString = platform_FWStrings[1];
+		key7Xneeded = true;
 		break;
 	case '3': // 5.1
 		cfw_FWString = platform_FWStrings[2];
+		key7Xneeded = true;
 		break;
 	case '4': // 6.0
 		cfw_FWString = platform_FWStrings[3];
+		key7Xneeded = true;
 		break;
 	case '5': // 6.1 - 6.3
 		cfw_FWString = platform_FWStrings[4];
+		key7Xneeded = true;
 		break;
 	case '6': // 7.0-7.1
 		cfw_FWString = platform_FWStrings[5];
