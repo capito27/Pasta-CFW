@@ -9,12 +9,6 @@
 #include "input.h"
 #include "rendering.h"
 #include "hid.h"
-#include "TOP_bin.h"
-#include "BOT_bin.h"
-#include "BOT_REBOOT_bin.h"
-#include "BOT_EXIT_bin.h"
-#include "BOT_BOOT_bin.h"
-#include "BOT_CREDITS_bin.h"
 
 //variables
 char* systemVersion;
