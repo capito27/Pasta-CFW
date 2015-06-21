@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/capito27/Pasta-CFW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/capito27/Pasta-CFW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-### Version 1.3
+### Version 1.3 beta
 
 -Moved the GUI code to arm9<br />
 -UI completely redesigned<br />
