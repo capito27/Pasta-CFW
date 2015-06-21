@@ -16,3 +16,12 @@ C:\devkitPro\Projects\3DS\Pasta-CFW\PastaCFW Configurator\PastaCFW Configurator\
 C:\devkitPro\Projects\3DS\Pasta-CFW\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW_Configurator.Form1.resources
 C:\devkitPro\Projects\3DS\Pasta-CFW\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW_Configurator.Properties.Resources.resources
 C:\devkitPro\Projects\3DS\Pasta-CFW\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.csproj.GenerateResource.Cache
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\bin\Debug\PastaCFW Configurator.exe.config
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.exe
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\bin\Debug\PastaCFW Configurator.exe
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\bin\Debug\PastaCFW Configurator.pdb
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.csprojResolveAssemblyReference.cache
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW_Configurator.Form1.resources
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW_Configurator.Properties.Resources.resources
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.csproj.GenerateResource.Cache
+C:\devkitPro\Projects\3DS\Pasta-CFW\Companion_App\Windows\PastaCFW Configurator\PastaCFW Configurator\obj\Debug\PastaCFW Configurator.pdb
