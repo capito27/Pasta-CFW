@@ -142,6 +142,8 @@ void Key7X(void)
 		}
 		DrawDebug(0, 1, "slot0x25KeyX.bin Found!");
 		DrawDebug(0, 1, "");
+		u8[16] zero = { 0x00 };
+		memcpy((u32*)0x01FFCD00, zero, 16);
 		setup_aeskeyX(0x25, slot0x25KeyX);
 	}
 	else {
@@ -410,7 +412,7 @@ void CFW_Settings(void)
 			FSFileClose();
 			break;
 		}
-		else if (pad_state & BUTTON_B) break; //EXIT WITHOUT SAVING 
+		else if (pad_state & BUTTON_B) break; //EXIT WITHOUT SAVING
 	}
 }
 
@@ -440,7 +442,7 @@ void FirmLaunch(void)
 int main(void) {
 
 	FSInit();
-	CFW_getSystemVersion();	
+	CFW_getSystemVersion();
 	if (cfw_bootGUI==true) //If gui autoboot is enabled or L is held, show the ui //L held not working
 	{
 		DrawClearScreenAll();
