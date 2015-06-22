@@ -5,18 +5,14 @@
 #include <malloc.h>
 #include <dirent.h>
 #include "brahma.h"
-#include "draw.h"
-#include "input.h"
-#include "rendering.h"
-#include "hid.h"
+
 
 //variables
 char* systemVersion;
-bool showcredits;
 
 //Config values
 char type = '0';
-char auto_boot = '0';
+char auto_boot = '1';
 char firmlaunch = '0';
 
 //For clock
@@ -144,15 +140,6 @@ void bootCFW_FirstStage()
 	brahma_exit();
 }
 
-void updateFB()
-{
-	// Flush and swap framebuffers
-	gfxFlushBuffers();
-	gfxSwapBuffers();
-
-	//Wait for VBlank
-	gspWaitForVBlank();
-}
 
 int main() {
 	// Initialize services

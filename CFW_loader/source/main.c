@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "fs.h"
 #include "hid.h"
-#include "textmenu.h"
 #include "platform.h"
 #include "draw.h"
 #include "crypto.h"
