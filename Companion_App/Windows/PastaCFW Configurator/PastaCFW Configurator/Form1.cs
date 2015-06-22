@@ -20,6 +20,7 @@ namespace PastaCFW_Configurator
         char type;
         char enable_firmlaunch;
         string path;
+        bool pasta_found;
 
         public Form1()
         {
@@ -47,6 +48,8 @@ namespace PastaCFW_Configurator
             {
                 label2.Text = "PastaCFW found!";
                 label2.ForeColor = Color.Green;
+                pasta_found = true;
+                groupBox2.Enabled = true;
 
                 if (!File.Exists(path + "system.txt") || File.ReadAllText(path + "system.txt").Length != 3) prepareSettings(); //If settings.txt is not found or not complete, reset it
                 settings = File.ReadAllText(path + "system.txt");
@@ -106,6 +109,9 @@ namespace PastaCFW_Configurator
                 textBox2.Text = null;
                 textBox1.Text = null;
                 checkBox2.Checked = false;
+                checkBox1.Checked = false;
+                pasta_found = false;
+                groupBox2.Enabled = false;
             }
         }
 
@@ -248,7 +254,11 @@ namespace PastaCFW_Configurator
             textBox3.AppendText("Saving the FIRM.bin");
             textBox3.AppendText(Environment.NewLine);
 
-            FileStream firm_writer = new FileStream(comboBox1.SelectedItem + "3ds/PastaCFW/firm.bin", FileMode.Create);
+            string firm_path;
+            if (pasta_found) firm_path = path + "firm.bin";
+            else firm_path = "firm.bin";
+
+            FileStream firm_writer = new FileStream(comboBox1.SelectedItem + firm_path, FileMode.Create);
             for (int i = 0; i < EXEFS_size-0x200; i++)
             {
                 firm_writer.WriteByte(firm[0x200 + i]);
