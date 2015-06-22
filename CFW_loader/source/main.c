@@ -111,7 +111,7 @@ void CFW_getSystemVersion(void) {
 	//Check if to boot the GUI
 	if (settings[1] == '0' || settings[1] == '2') cfw_bootGUI = true;
 	//Check if firmlaunch is enabled
-	if (settings[2] == '2') cfw_enablefirmlaunch = true;
+	if (settings[2] == '2' || settings[2] == '1') cfw_enablefirmlaunch = true;
 }
 
 // @breif Initialize N3DS keys
@@ -366,7 +366,7 @@ void CFW_Settings(void)
 		FSFileRead(settings, 3, 0);
 		FSFileClose();
 		if (settings[1] == '2')autobootgui = true;
-		if (settings[2] == '2')enable_firmlaunch = true;
+		if (settings[2] == '1' || settings[2] == '3')enable_firmlaunch = true;
 	}
 	while (true)
 	{
@@ -406,7 +406,7 @@ void CFW_Settings(void)
 			char tobewritten[3];
 			tobewritten[0] = cfw_FWValue;
 			tobewritten[1] = autobootgui ? '2' : '1';
-			tobewritten[2] = enable_firmlaunch ? '2' : '0';
+			tobewritten[2] = enable_firmlaunch ? '1' : '0';
 			cfw_enablefirmlaunch = enable_firmlaunch;
 			FSFileWrite(tobewritten, 3, 0);
 			FSFileClose();

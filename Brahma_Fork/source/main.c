@@ -44,13 +44,15 @@ void loadConfiguration() //Here we load the system.txt file, so that we can get 
 	}
 	auto_boot = buffer[1]; //we read the values
 	firmlaunch = buffer[2];
+	if (firmlaunch == '2') firmlaunch = '0';
+	else if (firmlaunch == '3') firmlaunch = '1';
 	
 }
 
 void saveConfiguration()
 {
 	//We save the configuration file, now it includes the detected firmware type
-	char buffer[]="011";
+	char buffer[]="010";
 	buffer[0] = type;
 	buffer[1] = auto_boot;
 	buffer[2] = firmlaunch; 
@@ -178,9 +180,8 @@ int main() {
 	else auto_boot = '1'; //here it won't show the GUI
 
 	//checks if the CFW has to disable firmlaunch
-	if (firmlaunch == '0') firmlaunch = '0'; //here it checks if the "disable firmlaunch" is set, and preservs it if it is set
-	else if (kHeld & KEY_R) firmlaunch = '1'; //here we disable the firmlaunch only this time
-	else firmlaunch = '2'; //here "enable firmlaunch" is set
+	if (kHeld & KEY_R && firmlaunch == '0') firmlaunch = '2'; //here we enable the firmlaunch only this time
+	else if (kHeld & KEY_R && firmlaunch == '1')firmlaunch = '3'; //here we disable the firmlaunch only this time
 	
 	//Then we save the configuration
 	saveConfiguration();
