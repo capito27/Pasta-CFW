@@ -95,7 +95,7 @@ namespace PastaCFW_Configurator
                 if (auto_boot == '2') checkBox2.Checked = true;
                 else checkBox2.Checked = false;
                 //enable firmlaunch checkbox
-                if (enable_firmlaunch == '1') checkBox1.Checked = true;
+                if (enable_firmlaunch == '2') checkBox1.Checked = true;
                 else checkBox1.Checked = false;
             }
 
@@ -311,7 +311,7 @@ namespace PastaCFW_Configurator
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked == true) enable_firmlaunch = '1';
+            if (checkBox1.Checked == true) enable_firmlaunch = '2';
             else enable_firmlaunch = '0';
             updateFile(type, auto_boot, enable_firmlaunch);
         }

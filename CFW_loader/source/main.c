@@ -111,7 +111,7 @@ void CFW_getSystemVersion(void) {
 	//Check if to boot the GUI
 	if (settings[1] == '0' || settings[1] == '2') cfw_bootGUI = true;
 	//Check if firmlaunch is enabled
-	if (settings[2] == '1') cfw_enablefirmlaunch = true;
+	if (settings[2] == '2') cfw_enablefirmlaunch = true;
 }
 
 // @breif Initialize N3DS keys
@@ -126,6 +126,7 @@ void KeyInit(void* source)
 		firm_key[i] = _source[i] ^ firm_key_xored[i];
 	}
 	setup_aeskeyX(0x16, firm_key);
+	DrawDebug(0, 1, "N3DS Key Initialized!");
 }
 
 void Key7X(void)
@@ -139,6 +140,8 @@ void Key7X(void)
 		if (bytesRead != 16) {
 			DrawDebug(0, 1, "slot0x25KeyX.bin is too small!");
 		}
+		DrawDebug(0, 1, "slot0x25KeyX.bin Found!");
+		DrawDebug(0, 1, "");
 		setup_aeskeyX(0x25, slot0x25KeyX);
 	}
 	else {
@@ -155,6 +158,8 @@ void Key7X(void)
 // @breif Copy and initialize FIRM
 void PrepareFirmLaunch(void)
 {
+	DrawDebug(0, 1, "Preparing for firmlaunch");
+	DrawDebug(0, 1, "");
 	uint32_t magic = 0x4D524946;
 	size_t bytesRead;
 	if (key7Xneeded)
@@ -174,7 +179,6 @@ void PrepareFirmLaunch(void)
 		FSFileRead(&key, 0x10, (firm.sect[2].offset + 0x60));
 		KeyInit(key);
 	}
-
 }
 
 // @breif  Patch the offsets to pass the signs.
@@ -266,6 +270,7 @@ void CFW_SecondStage(void) {
 		break;
 	}
 	DrawDebug(0, 1, "Apply patch for type %c...                  Done!", cfw_FWValue);
+	DrawDebug(0, 1, "");
 }
 
 void CFW_NandDumper(void){
@@ -359,7 +364,7 @@ void CFW_Settings(void)
 		FSFileRead(settings, 3, 0);
 		FSFileClose();
 		if (settings[1] == '2')autobootgui = true;
-		if (settings[2] == '1')enable_firmlaunch = true;
+		if (settings[2] == '2')enable_firmlaunch = true;
 	}
 	while (true)
 	{
@@ -399,7 +404,7 @@ void CFW_Settings(void)
 			char tobewritten[3];
 			tobewritten[0] = cfw_FWValue;
 			tobewritten[1] = autobootgui ? '2' : '1';
-			tobewritten[2] = enable_firmlaunch ? '1' : '0';
+			tobewritten[2] = enable_firmlaunch ? '2' : '0';
 			cfw_enablefirmlaunch = enable_firmlaunch;
 			FSFileWrite(tobewritten, 3, 0);
 			FSFileClose();
@@ -422,8 +427,11 @@ void CFW_Boot(void){
 // @breif FirmLaunch!
 void FirmLaunch(void)
 {
+	DrawDebug(0, 1, "Preparing ARM11");
+	DrawDebug(0, 1, "");
 	//Prepare ARM11
 	*(uint32_t *)0x1FFFFFF8 = *(uint32_t *)(firm.arm11Ent);
+	DrawDebug(0, 1, "Jump!");
 	//Jump
 	((void(*)())firm.arm9Ent)();
 }

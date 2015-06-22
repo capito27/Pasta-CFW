@@ -176,6 +176,11 @@ int main() {
 	if(auto_boot == '2') auto_boot = '2'; //here it checks if the "force GUI" is set, and preservs it if it is set
 	else if(kHeld & KEY_L) auto_boot = '0'; //here it will start the GUI only this time
 	else auto_boot = '1'; //here it won't show the GUI
+
+	//checks if the CFW has to disable firmlaunch
+	if (firmlaunch == '0') firmlaunch = '0'; //here it checks if the "disable firmlaunch" is set, and preservs it if it is set
+	else if (kHeld & KEY_R) firmlaunch = '1'; //here we disable the firmlaunch only this time
+	else firmlaunch = '2'; //here "enable firmlaunch" is set
 	
 	//Then we save the configuration
 	saveConfiguration();
