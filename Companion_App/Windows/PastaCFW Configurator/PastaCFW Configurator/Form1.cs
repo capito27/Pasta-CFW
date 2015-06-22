@@ -258,7 +258,7 @@ namespace PastaCFW_Configurator
             if (pasta_found) firm_path = path + "firm.bin";
             else firm_path = "firm.bin";
 
-            FileStream firm_writer = new FileStream(comboBox1.SelectedItem + firm_path, FileMode.Create);
+            FileStream firm_writer = new FileStream(firm_path, FileMode.Create);
             for (int i = 0; i < EXEFS_size-0x200; i++)
             {
                 firm_writer.WriteByte(firm[0x200 + i]);
