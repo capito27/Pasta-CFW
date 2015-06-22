@@ -52,6 +52,7 @@ namespace PastaCFW_Configurator
                 settings = File.ReadAllText(path + "system.txt");
                 type = settings[0];
                 auto_boot = settings[1];
+                enable_firmlaunch = settings[2];
 
                 textBox2.Text = type.ToString();
                 switch (type)
@@ -93,6 +94,9 @@ namespace PastaCFW_Configurator
                 //autoboot checkbox
                 if (auto_boot == '2') checkBox2.Checked = true;
                 else checkBox2.Checked = false;
+                //enable firmlaunch checkbox
+                if (enable_firmlaunch == '1') checkBox1.Checked = true;
+                else checkBox1.Checked = false;
             }
 
             else
