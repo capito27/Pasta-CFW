@@ -142,7 +142,7 @@ void Key7X(void)
 		}
 		DrawDebug(0, 1, "slot0x25KeyX.bin Found!");
 		DrawDebug(0, 1, "");
-		u8[16] zero = { 0x00 };
+		u8 zero[16] = { 0x00 };
 		memcpy((u32*)0x01FFCD00, zero, 16);
 		setup_aeskeyX(0x25, slot0x25KeyX);
 	}
