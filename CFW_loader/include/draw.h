@@ -14,10 +14,10 @@
 // @retval a u32 RGB value.
 #define RGB(r,g,b) (r<<24|b<<16|g<<8|r)
 //Frame buffer offsets fixed by Capito27
-#define SCREEN_AREA_TOP0 (u8*)(0x20000017)
-#define SCREEN_AREA_TOP1 (u8*)(0x20046515)
-#define SCREEN_AREA_BOT0 (u8*)(0x2008CA36)
-#define SCREEN_AREA_BOT1 (u8*)(0x200C4E34)
+#define SCREEN_AREA_TOP0 (u8*)(0x20000000)
+#define SCREEN_AREA_TOP1 (u8*)(0x20046500)
+#define SCREEN_AREA_BOT0 (u8*)(0x2008CA00)
+#define SCREEN_AREA_BOT1 (u8*)(0x200C4E00)
 extern u32 drawInternalY;
 
 void DrawClearScreen(u8 *screenArea, int color);
