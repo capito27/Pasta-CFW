@@ -186,19 +186,30 @@ void PrepareFirmLaunch(void)
 void CFW_SecondStage(void) {
 	//Firm launch part
 	//Check if firm.bin exists
-	if (FSFileOpen("/3ds/PastaCFW/firm.bin") && cfw_enablefirmlaunch)
+	if (cfw_enablefirmlaunch)
 	{
-		FSFileClose();
-		if (Platform_CheckUnit() == PLATFORM_N3DS)
+		if (FSFileOpen("/3ds/PastaCFW/firm.bin"))
 		{
-			cfw_FWValue = 'd';
+			FSFileClose();
+			if (Platform_CheckUnit() == PLATFORM_N3DS)
+			{
+				cfw_FWValue = 'd';
+			}
+			else
+			{
+				cfw_FWValue = 'c';
+			}
+			PrepareFirmLaunch();
+			firmlaunch = 1;
 		}
 		else
 		{
-			cfw_FWValue = 'c';
+			DrawDebug(0, 1, "             ATTENTION!");
+			DrawDebug(0, 1, "Firm launch is enabled but firm.bin is missing");
+			DrawDebug(0, 1, "Download it with Companion App!");
+			DrawDebug(0, 1, "Press any key to continue...");
+			HidWaitForInput();
 		}
-		PrepareFirmLaunch();
-		firmlaunch = 1;
 	}
 
 	u8 patchO0[] = { 0x00, 0x20, 0x3B, 0xE0 };
