@@ -151,6 +151,7 @@ int main() {
 	sdmcInit();
 	hbInit();
 	qtmInit();
+	gfxSwapBuffers();
 	hidScanInput();
 	u32 kDown = hidKeysDown();
 	u32 kHeld = hidKeysHeld();
