@@ -6,6 +6,7 @@
 #include "platform.h"
 #include "draw.h"
 #include "crypto.h"
+#include "i2c.h"
 
 //This contains the System Firmware Version String.
 char* cfw_FWString;
@@ -487,6 +488,11 @@ int main(void) {
 				else if (menu_idx == 2)CFW_NandDumper(); //NAND DUMPER
 				else if (menu_idx == 4)CFW_ARM9Dumper(); //ARM9 RAM DUMPER
 				else if (menu_idx == 5)CFW_Settings(); //SETTINGS
+			}
+			else if (pad_state & BUTTON_DOWN && pad_state & BUTTON_B) //POWER OFF
+			{
+				i2cWriteRegister(I2C_DEV_MCU, 0x20, (u8)(1 << 0)); //As seen on 3dbrew
+				while (1);
 			}
 		}
 	}
