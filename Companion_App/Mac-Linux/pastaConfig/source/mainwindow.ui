@@ -944,7 +944,7 @@
       <string>Disable Autoboot</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="dumpMEM">
+    <widget class="QCheckBox" name="firmLaunch">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -954,7 +954,20 @@
       </rect>
      </property>
      <property name="text">
-      <string>Dump ARM9 memory</string>
+      <string>Enable FIRMLAUNCH</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="installfl">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>180</y>
+       <width>171</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Install FIRMLAUNCH</string>
      </property>
     </widget>
    </widget>

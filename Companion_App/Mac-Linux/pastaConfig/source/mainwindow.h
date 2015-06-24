@@ -39,9 +39,11 @@ private slots:
 
     void on_noAB_toggled(bool checked);
 
-    void on_dumpMEM_toggled(bool checked);
-
     void on_changepath_clicked();
+
+    void on_firmLaunch_toggled(bool checked);
+
+    void on_installfl_clicked();
 
 private:
     Ui::MainWindow *ui;
