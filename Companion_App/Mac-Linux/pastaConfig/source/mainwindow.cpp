@@ -22,6 +22,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QFile>
+#include <QProcess>
+#include <QByteArray>
+#include <QDebug>
 
 #ifdef WIN32
 #define p "\\"
@@ -29,7 +32,7 @@
 #define p "/"
 #endif
 
-QString folder="";
+QString folder="", pastadir;
 QByteArray cfg="000";
 QFile config;
 bool writable=0;
@@ -63,19 +66,28 @@ void MainWindow::detectSD()
     QFile pasta(folder+p+"3ds"+p+"PastaCFW"+p+"PastaCFW.3dsx");
 
     if(pasta.exists())
-        config.setFileName(folder+p+"3ds"+p+"PastaCFW"+p+"system.txt");
+    {
+        pastadir=folder+p+"3ds"+p+"PastaCFW"+p;
+        config.setFileName(pastadir+"system.txt");
+    }
     else
     {
         pasta.setFileName(folder+p+"PastaCFW"+p+"PastaCFW.3dsx");
 
         if(pasta.exists())
-            config.setFileName(folder+p+"PastaCFW"+p+"system.txt");
+        {
+            pastadir=folder+p+"PastaCFW"+p;
+            config.setFileName(pastadir+"system.txt");
+        }
         else
         {
             pasta.setFileName(folder+p+"PastaCFW.3dsx");
 
             if(pasta.exists())
-                config.setFileName(folder+p+"system.txt");
+            {
+                pastadir=folder+p;
+                config.setFileName(pastadir+"system.txt");
+            }
             else
             {
                 QMessageBox::critical(this, "Error", "Pasta CFW not found.");
@@ -99,10 +111,10 @@ void MainWindow::detectSD()
         cfg=config.read(3);
     config.close();
 
-    if(cfg[1]=='1')
+    if(cfg[1]=='2')
         ui->noAB->setChecked(1);
-    if(cfg[2]=='1')
-        ui->dumpMEM->setChecked(1);
+    if(cfg[2]=='2')
+        ui->firmLaunch->setChecked(1);
     writable=1;
 
     switch(cfg[0])
@@ -161,24 +173,141 @@ void MainWindow::on_noAB_toggled(bool checked)
     if(writable)
     {
         if(checked)
+            apply(1, '2');
+        else
             apply(1, '1');
-        else
-            apply(1, '0');
-    }
-}
-
-void MainWindow::on_dumpMEM_toggled(bool checked)
-{
-    if(writable)
-    {
-        if(checked)
-            apply(2, '1');
-        else
-            apply(2, '0');
     }
 }
 
 void MainWindow::on_changepath_clicked()
 {
     detectSD();
+}
+
+void MainWindow::on_firmLaunch_toggled(bool checked)
+{
+    if(writable)
+    {
+        if(checked)
+            apply(2, '2');
+        else
+            apply(2, '0');
+    }
+}
+
+void MainWindow::on_installfl_clicked()
+{
+#ifdef WIN32
+    QMessageBox::Abort(this, "", "Feature not supported on Windows.");
+    return;
+#endif
+
+    QString file_url[4] = {
+        "http://albertosonic.bplaced.net/pasta/O3DS_file1.bin",
+        "http://albertosonic.bplaced.net/pasta/O3DS_file2.bin",
+        "http://nus.cdn.c.shop.nintendowifi.net/ccs/download/0004013800000002/00000049",
+        "http://nus.cdn.c.shop.nintendowifi.net/ccs/download/0004013800000002/cetk" };
+    if(QMessageBox::question(this, "FIRMLAUNCH Install", "Select your Nintendo 3DS model. Make sure updates are not blocked.", "Old 3DS", "New 3DS"))
+    {
+        file_url[0] = "http://albertosonic.bplaced.net/pasta/N3DS_file1.bin";
+        file_url[1] = "http://albertosonic.bplaced.net/pasta/N3DS_file2.bin";
+        file_url[2] = "http://nus.cdn.c.shop.nintendowifi.net/ccs/download/0004013820000002/0000000f";
+        file_url[3] = "http://nus.cdn.c.shop.nintendowifi.net/ccs/download/0004013820000002/cetk";
+    }
+    QProcess process;
+    process.start("rm \""+pastadir+p+"file3_dec.bin\" \""+pastadir+p+"firm.bin\"");
+    while(process.waitForFinished(-1)){}
+    for(int i=0; i<4; i++)
+    {
+        process.start("rm \""+pastadir+p+"file"+QString::number(i+1)+".bin\"");
+        while(process.waitForFinished(-1)){}
+#ifdef __APPLE__
+        process.start("curl -o \""+pastadir+p+"file"+QString::number(i+1)+".bin\" -O \""+file_url[i]+"\"");
+#else
+        process.start("wget -O \""+pastadir+p+"file"+QString::number(i+1)+".bin\" \""+file_url[i]+"\"");
+#endif
+        while(process.waitForFinished(-1)){}
+    }
+    QFile file1(pastadir+p+"file1.bin");
+    QFile file2(pastadir+p+"file2.bin");
+    QFile file3(pastadir+p+"file3.bin");
+    QFile file4(pastadir+p+"file4.bin");
+
+    QByteArray file4_array;
+    file4.open(QIODevice::ReadOnly);
+    file4.seek(0x1BF);
+    file4_array = file4.read(0x10);
+    file4.close();
+
+    QByteArray file1_array;
+    file1.open(QIODevice::ReadOnly);
+    file1.seek(0);
+    file1_array = file1.read(0x10);
+    file1.close();
+
+    QByteArray key;
+    for(int i=0; i<0x10; i++)
+        key[i] = file4_array[i]^file1_array[i];
+
+    QByteArray file3_array;
+    file3.open(QIODevice::ReadOnly);
+    file3.seek(0);
+    file3_array = file3.read(0x1C1);
+    file3.close();
+
+    process.start("openssl enc -aes-128-cbc -d -in \""+pastadir+p+"file3.bin\" -out \""+pastadir+p+"file3_dec.bin\" -K "+key.toHex()+" -nosalt -iv 0000000000000000");
+    while(process.waitForFinished(-1)){}
+    QFile file3_dec(pastadir+p+"file3_dec.bin");
+    file3_dec.open(QIODevice::ReadOnly);
+    QByteArray file3_data = file3_dec.readAll();
+    file3_dec.close();
+
+    bool ok;
+
+    QByteArray EXEFS_offset_byte;
+    EXEFS_offset_byte.insert(0, file3_data[0x1A3]);
+    EXEFS_offset_byte.insert(1, file3_data[0x1A2]);
+    EXEFS_offset_byte.insert(2, file3_data[0x1A1]);
+    EXEFS_offset_byte.insert(3, file3_data[0x1A0]);
+    int EXEFS_offset = EXEFS_offset_byte.toHex().toInt(&ok, 16);
+    EXEFS_offset *= 0x200;
+
+    QByteArray EXEFS_size_byte;
+    EXEFS_size_byte.append(file3_data[0x1A7]);
+    EXEFS_size_byte.append(file3_data[0x1A6]);
+    EXEFS_size_byte.append(file3_data[0x1A5]);
+    EXEFS_size_byte.append(file3_data[0x1A4]);
+    int EXEFS_size = EXEFS_size_byte.toHex().toInt(&ok, 16);
+    EXEFS_size *= 0x200;
+
+    file2.open(QIODevice::ReadOnly);
+    QByteArray file2_array = file2.read(EXEFS_size);
+    file2.close();
+
+    QByteArray firm, final;
+
+    for(int i=0; i<EXEFS_size-0x10; i++)
+    {
+        firm[i] = file2_array[i]^file3_data[EXEFS_offset+i];
+    }
+
+    QFile firmfile(pastadir+p+"firm.bin");
+    firmfile.open(QIODevice::WriteOnly);
+    for(int i=0; i<EXEFS_size-0x200; i++)
+        final[i] = firm[0x200+i];
+    firmfile.write(final);
+    firmfile.close();
+
+    process.start("rm \""+pastadir+p+"file3_dec.bin\"");
+    while(process.waitForFinished(-1)){}
+    for(int i=0; i<4; i++)
+    {
+        process.start("rm \""+pastadir+p+"file"+QString::number(i+1)+".bin\"");
+        while(process.waitForFinished(-1)){}
+    }
+
+    if((firmfile.size()==962560||firmfile.size()==987136))
+        QMessageBox::information(this, "", "firm.bin generated.");
+    else
+        QMessageBox::warning(this, "", "An error has occurred during the generation of firm.bin.");
 }
