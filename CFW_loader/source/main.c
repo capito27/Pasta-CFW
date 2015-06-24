@@ -404,9 +404,9 @@ void CFW_Settings(void)
 		//APP CONTROLS
 		u32 pad_state = HidWaitForInput();
 		if (pad_state & BUTTON_DOWN && settings_idx != SETTINGS_ITEMS - 1) settings_idx++; //MOVE DOWN
-		else if (pad_state & BUTTON_DOWN && settings_idx = SETTINGS_ITEMS - 1) settings_idx = 0; //MOVE DOWN While at bottom -> go to top
+		else if (pad_state & BUTTON_DOWN && settings_idx != 0 ) settings_idx--; //MOVE DOWN While at bottom -> go to top
 		else if (pad_state & BUTTON_UP && settings_idx != 0) settings_idx--; //MOVE UP
-		else if (pad_state & BUTTON_UP && settings_idx != 0) settings_idx = SETTINGS_ITEMS - 1; //MOVE UP While at top -> go to bottom
+		else if (pad_state & BUTTON_UP && settings_idx != SETTINGS_ITEMS - 1) settings_idx++; //MOVE UP While at top -> go to bottom
 		else if (pad_state & BUTTON_LEFT || pad_state & BUTTON_RIGHT)
 		{
 			if (settings_idx == 0) autobootgui = !autobootgui; //autobootgui settings
