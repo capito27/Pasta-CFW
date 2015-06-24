@@ -5,25 +5,15 @@
 #include <malloc.h>
 #include <dirent.h>
 #include "brahma.h"
-#include "draw.h"
-#include "input.h"
-#include "rendering.h"
-#include "hid.h"
-#include "TOP_bin.h"
-#include "BOT_bin.h"
-#include "BOT_REBOOT_bin.h"
-#include "BOT_EXIT_bin.h"
-#include "BOT_BOOT_bin.h"
-#include "BOT_CREDITS_bin.h"
+
 
 //variables
 char* systemVersion;
-bool showcredits;
 
 //Config values
 char type = '0';
-char auto_boot = '0';
-char arm9_dumper = '0';
+char auto_boot = '1';
+char firmlaunch = '0';
 
 //For clock
 #define SECONDS_IN_DAY 86400
@@ -49,14 +39,19 @@ void loadConfiguration() //Here we load the system.txt file, so that we can get 
 		fclose(cfg);
 	}
 	auto_boot = buffer[1]; //we read the values
+	firmlaunch = buffer[2];
+	if (firmlaunch == '2') firmlaunch = '0';
+	else if (firmlaunch == '3') firmlaunch = '1';
+	
 }
 
 void saveConfiguration()
 {
 	//We save the configuration file, now it includes the detected firmware type
-	char buffer[]="01";
+	char buffer[]="010";
 	buffer[0] = type;
 	buffer[1] = auto_boot;
+	buffer[2] = firmlaunch; 
 	FILE *f = fopen("/3ds/PastaCFW/system.txt", "w+");
 	fprintf(f, "%s", buffer);
 	fclose(f);
@@ -145,15 +140,6 @@ void bootCFW_FirstStage()
 	brahma_exit();
 }
 
-void updateFB()
-{
-	// Flush and swap framebuffers
-	gfxFlushBuffers();
-	gfxSwapBuffers();
-
-	//Wait for VBlank
-	gspWaitForVBlank();
-}
 
 int main() {
 	// Initialize services
@@ -165,6 +151,7 @@ int main() {
 	sdmcInit();
 	hbInit();
 	qtmInit();
+	gfxSwapBuffers();
 	hidScanInput();
 	u32 kDown = hidKeysDown();
 	u32 kHeld = hidKeysHeld();
@@ -179,6 +166,10 @@ int main() {
 	if(auto_boot == '2') auto_boot = '2'; //here it checks if the "force GUI" is set, and preservs it if it is set
 	else if(kHeld & KEY_L) auto_boot = '0'; //here it will start the GUI only this time
 	else auto_boot = '1'; //here it won't show the GUI
+
+	//checks if the CFW has to disable firmlaunch
+	if (kHeld & KEY_R && firmlaunch == '0') firmlaunch = '2'; //here we enable the firmlaunch only this time
+	else if (kHeld & KEY_R && firmlaunch == '1')firmlaunch = '3'; //here we disable the firmlaunch only this time
 	
 	//Then we save the configuration
 	saveConfiguration();

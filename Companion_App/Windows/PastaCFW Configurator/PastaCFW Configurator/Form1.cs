@@ -18,7 +18,9 @@ namespace PastaCFW_Configurator
     {
         char auto_boot;
         char type;
+        char enable_firmlaunch;
         string path;
+        bool pasta_found;
 
         public Form1()
         {
@@ -41,15 +43,19 @@ namespace PastaCFW_Configurator
             path = comboBox1.SelectedItem + "3ds/PastaCFW/";
             type = '0';
             auto_boot = '0';
+            enable_firmlaunch = '0';
             if (Directory.Exists(path))
             {
                 label2.Text = "PastaCFW found!";
                 label2.ForeColor = Color.Green;
+                pasta_found = true;
+                groupBox2.Enabled = true;
 
-                if (!File.Exists(path + "system.txt") || File.ReadAllText(path + "system.txt").Length != 2) prepareSettings(); //If settings.txt is not found or not complete, reset it
+                if (!File.Exists(path + "system.txt") || File.ReadAllText(path + "system.txt").Length != 3) prepareSettings(); //If settings.txt is not found or not complete, reset it
                 settings = File.ReadAllText(path + "system.txt");
                 type = settings[0];
                 auto_boot = settings[1];
+                enable_firmlaunch = settings[2];
 
                 textBox2.Text = type.ToString();
                 switch (type)
@@ -91,6 +97,9 @@ namespace PastaCFW_Configurator
                 //autoboot checkbox
                 if (auto_boot == '2') checkBox2.Checked = true;
                 else checkBox2.Checked = false;
+                //enable firmlaunch checkbox
+                if (enable_firmlaunch == '1') checkBox1.Checked = true;
+                else checkBox1.Checked = false;
             }
 
             else
@@ -100,6 +109,9 @@ namespace PastaCFW_Configurator
                 textBox2.Text = null;
                 textBox1.Text = null;
                 checkBox2.Checked = false;
+                checkBox1.Checked = false;
+                pasta_found = false;
+                groupBox2.Enabled = false;
             }
         }
 
@@ -112,18 +124,18 @@ namespace PastaCFW_Configurator
         {
             if (checkBox2.Checked == true) auto_boot = '2';
             else auto_boot = '1';
-            updateFile(type,auto_boot);
+            updateFile(type,auto_boot, enable_firmlaunch);
         }
 
-        private void updateFile(char arg1,char arg2)
+        private void updateFile(char arg1,char arg2, char arg3)
         {
-            if (File.Exists(path + "system.txt"))File.WriteAllText(path + "system.txt", arg1.ToString() + arg2.ToString());
+            if (File.Exists(path + "system.txt")) File.WriteAllText(path + "system.txt", arg1.ToString() + arg2.ToString() + arg3.ToString());
         }
 
         private void prepareSettings()
         {
             MessageBox.Show("Pasta CFW has been found but the system.txt file is not found or not complete. Press OK to create it.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            File.WriteAllText(path + "system.txt", "00");
+            File.WriteAllText(path + "system.txt", "000");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -242,7 +254,11 @@ namespace PastaCFW_Configurator
             textBox3.AppendText("Saving the FIRM.bin");
             textBox3.AppendText(Environment.NewLine);
 
-            FileStream firm_writer = new FileStream(comboBox1.SelectedItem + "3ds/PastaCFW/firm.bin", FileMode.Create);
+            string firm_path;
+            if (pasta_found) firm_path = path + "firm.bin";
+            else firm_path = "firm.bin";
+
+            FileStream firm_writer = new FileStream(firm_path, FileMode.Create);
             for (int i = 0; i < EXEFS_size-0x200; i++)
             {
                 firm_writer.WriteByte(firm[0x200 + i]);
@@ -301,6 +317,13 @@ namespace PastaCFW_Configurator
             }
 
             return decryptedBytes;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true) enable_firmlaunch = '1';
+            else enable_firmlaunch = '0';
+            updateFile(type, auto_boot, enable_firmlaunch);
         }
 
     }
