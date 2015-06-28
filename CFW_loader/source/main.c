@@ -403,10 +403,16 @@ void CFW_Settings(void)
 
 		//APP CONTROLS
 		u32 pad_state = HidWaitForInput();
-		if (pad_state & BUTTON_DOWN && settings_idx != SETTINGS_ITEMS - 1) settings_idx++; //MOVE DOWN
-		else if (pad_state & BUTTON_DOWN && settings_idx = SETTINGS_ITEMS - 1) settings_idx = 0; //MOVE DOWN While at bottom -> go to top
-		else if (pad_state & BUTTON_UP && settings_idx != 0) settings_idx--; //MOVE UP
-		else if (pad_state & BUTTON_UP && settings_idx != 0) settings_idx = SETTINGS_ITEMS - 1; //MOVE UP While at top -> go to bottom
+		if (pad_state & BUTTON_DOWN)
+		{
+			if (settings_idx != SETTINGS_ITEMS - 1) settings_idx++; //MOVE DOWN
+			else settings_idx = 0; //MOVE DOWN While at bottom -> go to top
+		}
+		else if (pad_state & BUTTON_UP)
+		{
+			if (settings_idx != 0) settings_idx--; //MOVE UP
+			else settings_idx = SETTINGS_ITEMS - 1; //MOVE UP While at top -> go to bottom
+		}
 		else if (pad_state & BUTTON_LEFT || pad_state & BUTTON_RIGHT)
 		{
 			if (settings_idx == 0) autobootgui = !autobootgui; //autobootgui settings
@@ -481,8 +487,8 @@ int main(void) {
 			}
 			//MENU CONTROLS
 			u32 pad_state = HidWaitForInput();
-			if (pad_state & BUTTON_RIGHT && menu_idx != MENU_ITEMS - 1) menu_idx++; //MOVE RIGHT
-			else if (pad_state & BUTTON_LEFT && menu_idx != 0)menu_idx--; //MOVE LEFT
+			if ((pad_state & BUTTON_RIGHT || pad_state & BUTTON_DOWN) && menu_idx != MENU_ITEMS - 1) menu_idx++; //MOVE RIGHT/DOWN (It depends on the theme)
+			else if ((pad_state & BUTTON_LEFT || pad_state & BUTTON_UP) && menu_idx != 0)menu_idx--; //MOVE LEFT/UP (It depends on the theme)
 			else if (pad_state & BUTTON_A)//SELECT
 			{
 				if (menu_idx == 0){ CFW_Boot(); break; }//BOOT CFW
@@ -491,7 +497,7 @@ int main(void) {
 				else if (menu_idx == 4)CFW_ARM9Dumper(); //ARM9 RAM DUMPER
 				else if (menu_idx == 5)CFW_Settings(); //SETTINGS
 			}
-			else if (pad_state & BUTTON_DOWN && pad_state & BUTTON_B) //POWER OFF
+			else if (pad_state & BUTTON_START && pad_state & BUTTON_SELECT) //POWER OFF
 			{
 				i2cWriteRegister(I2C_DEV_MCU, 0x20, (u8)(1 << 0)); //As seen on 3dbrew
 				while (1);
