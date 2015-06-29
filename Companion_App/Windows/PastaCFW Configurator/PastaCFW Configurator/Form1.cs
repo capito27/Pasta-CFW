@@ -19,6 +19,7 @@ namespace PastaCFW_Configurator
         char auto_boot;
         char type;
         char enable_firmlaunch;
+        char theme;
         string path;
         bool pasta_found;
 
@@ -44,6 +45,7 @@ namespace PastaCFW_Configurator
             type = '0';
             auto_boot = '0';
             enable_firmlaunch = '0';
+            theme = '0';
             if (Directory.Exists(path))
             {
                 label2.Text = "PastaCFW found!";
@@ -51,11 +53,12 @@ namespace PastaCFW_Configurator
                 pasta_found = true;
                 groupBox2.Enabled = true;
 
-                if (!File.Exists(path + "system.txt") || File.ReadAllText(path + "system.txt").Length != 3) prepareSettings(); //If settings.txt is not found or not complete, reset it
+                if (!File.Exists(path + "system.txt") || File.ReadAllText(path + "system.txt").Length != 4) prepareSettings(); //If settings.txt is not found or not complete, reset it
                 settings = File.ReadAllText(path + "system.txt");
                 type = settings[0];
                 auto_boot = settings[1];
                 enable_firmlaunch = settings[2];
+                theme = settings[3];
 
                 textBox2.Text = type.ToString();
                 switch (type)
@@ -124,12 +127,12 @@ namespace PastaCFW_Configurator
         {
             if (checkBox2.Checked == true) auto_boot = '2';
             else auto_boot = '1';
-            updateFile(type,auto_boot, enable_firmlaunch);
+            updateFile(type,auto_boot, enable_firmlaunch, theme);
         }
 
-        private void updateFile(char arg1,char arg2, char arg3)
+        private void updateFile(char arg1,char arg2, char arg3, char arg4)
         {
-            if (File.Exists(path + "system.txt")) File.WriteAllText(path + "system.txt", arg1.ToString() + arg2.ToString() + arg3.ToString());
+            if (File.Exists(path + "system.txt")) File.WriteAllText(path + "system.txt", arg1.ToString() + arg2.ToString() + arg3.ToString() + arg4.ToString());
         }
 
         private void prepareSettings()
@@ -323,7 +326,7 @@ namespace PastaCFW_Configurator
         {
             if (checkBox1.Checked == true) enable_firmlaunch = '1';
             else enable_firmlaunch = '0';
-            updateFile(type, auto_boot, enable_firmlaunch);
+            updateFile(type, auto_boot, enable_firmlaunch, theme);
         }
 
     }

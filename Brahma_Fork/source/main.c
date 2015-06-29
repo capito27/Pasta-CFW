@@ -14,6 +14,7 @@ char* systemVersion;
 char type = '0';
 char auto_boot = '1';
 char firmlaunch = '0';
+char theme = '0';
 
 //For clock
 #define SECONDS_IN_DAY 86400
@@ -29,7 +30,7 @@ s32 quick_boot_firm(s32 load_from_disk) {
 
 void loadConfiguration() //Here we load the system.txt file, so that we can get needed values. 
 {
-	char buffer []= "010";
+	char buffer[] = "0100";
 	if (fopen("/3ds/PastaCFW/system.txt", "r")) //If the file exists, read it. If it doesn't exists, then it gets created with saveConfiguration() function
 	{
 		FILE* cfg;
@@ -40,9 +41,11 @@ void loadConfiguration() //Here we load the system.txt file, so that we can get 
 	}
 	auto_boot = buffer[1]; //we read the values
 	firmlaunch = buffer[2];
+	if (strlen(buffer) == 4)theme = buffer[3];
+	else theme = '0';
+
 	if (firmlaunch == '2') firmlaunch = '0';
 	else if (firmlaunch == '3') firmlaunch = '1';
-	
 }
 
 void saveConfiguration()
@@ -52,6 +55,7 @@ void saveConfiguration()
 	buffer[0] = type;
 	buffer[1] = auto_boot;
 	buffer[2] = firmlaunch; 
+	buffer[3] = theme;
 	FILE *f = fopen("/3ds/PastaCFW/system.txt", "w+");
 	fprintf(f, "%s", buffer);
 	fclose(f);
