@@ -14,8 +14,10 @@ char* cfw_FWString;
 char cfw_FWValue;
 //This is related to the ui autoboot
 bool cfw_bootGUI;
-//If enables firmlaunch
+//If true enables firmlaunch
 bool cfw_enablefirmlaunch;
+//Theme folder
+char cfw_theme;
 //if true, perform firmlaunch
 bool firmlaunch;
 //if true, the 7X key is needed to perform a firmlaunch
@@ -27,8 +29,9 @@ firmHdr firm;
 int menu_idx = 0;
 int settings_idx = 0;
 #define MENU_ITEMS 7
-#define SETTINGS_ITEMS 2
+#define SETTINGS_ITEMS 3
 int TOP_Current = 0;
+char str[100];
 
 //needed for the nand dumper
 #define NAND_SIZE_O3DS 0x3AF00000
@@ -112,6 +115,11 @@ void CFW_getSystemVersion(void) {
 	if (settings[1] == '0' || settings[1] == '2') cfw_bootGUI = true;
 	//Check if firmlaunch is enabled
 	if (settings[2] == '2' || settings[2] == '1') cfw_enablefirmlaunch = true;
+	//Check theme
+	
+	sprintf(str, "/3ds/PastaCFW/UI/%c/menu0.bin", settings[3]);
+	if (FSFileOpen(str)) cfw_theme = settings[3]; //check if the theme exists, else load theme 0 (default)
+	else cfw_theme = 0;
 }
 
 // @breif Initialize N3DS keys
@@ -293,7 +301,8 @@ void CFW_NandDumper(void){
 
 	//Here we draw the gui
 	TOP_Current = 0;
-	DrawBottomSplash("/3ds/PastaCFW/UI/nand0.bin");
+	sprintf(str, "/3ds/PastaCFW/UI/%c/nand0.bin", cfw_theme);
+	DrawBottomSplash(str);
 	u32 pad_state = HidWaitForInput();
 	if (pad_state & BUTTON_A)
 	{
@@ -301,7 +310,8 @@ void CFW_NandDumper(void){
 		int NAND_SIZE;
 		if (cfw_FWValue == 'a' || cfw_FWValue == 'b') NAND_SIZE = NAND_SIZE_N3DS;
 		else  NAND_SIZE = NAND_SIZE_O3DS;
-		DrawBottomSplash("/3ds/PastaCFW/UI/nand1.bin");
+		sprintf(str, "/3ds/PastaCFW/UI/%c/nand1.bin", cfw_theme);
+		DrawBottomSplash(str);
 		if (FSFileCreate("/NAND.bin", true))
 		{
 			for (int count = 0; count < NAND_SIZE / NAND_SECTOR_SIZE / nsectors; count++)
@@ -310,8 +320,7 @@ void CFW_NandDumper(void){
 
 				FSFileWrite(buf, nsectors*NAND_SECTOR_SIZE, count*NAND_SECTOR_SIZE*nsectors);
 				if ((count % (int)(NAND_SIZE / NAND_SECTOR_SIZE / nsectors / 100)) == 0 && count != 0)
-				{
-					char str[100];
+				{		
 					sprintf(str, "%d%%", PERCENTAGE);
 					DrawString(SCREEN_AREA_BOT0, str, 150, 195, RGB(255, 255, 255), RGB(187, 223, 249));
 					DrawString(SCREEN_AREA_BOT1, str, 150, 195, RGB(255, 255, 255), RGB(187, 223, 249));
@@ -319,9 +328,13 @@ void CFW_NandDumper(void){
 				}
 			}
 			FSFileClose();
-			DrawBottomSplash("/3ds/PastaCFW/UI/nand2O.bin");
+			sprintf(str, "/3ds/PastaCFW/UI/%c/nand2O.bin", cfw_theme);
+			DrawBottomSplash(str);
 		}
-		else DrawBottomSplash("/3ds/PastaCFW/UI/nand2E.bin");
+		else {
+			sprintf(str, "/3ds/PastaCFW/UI/%c/nand2E.bin", cfw_theme);
+			DrawBottomSplash(str);
+		}
 	}
 	HidWaitForInput();
 }
@@ -329,11 +342,13 @@ void CFW_NandDumper(void){
 // @breif  Dump ARM9 Ram to file.
 void CFW_ARM9Dumper(void) {
 	TOP_Current = 0;
-	DrawBottomSplash("/3ds/PastaCFW/UI/arm90.bin");
+	sprintf(str, "/3ds/PastaCFW/UI/%c/arm90.bin", cfw_theme);
+	DrawBottomSplash(str);
 	u32 pad_state = HidWaitForInput();
 	if (pad_state & BUTTON_A)
 	{
-		DrawBottomSplash("/3ds/PastaCFW/UI/arm91.bin");
+		sprintf(str, "/3ds/PastaCFW/UI/%c/arm91.bin", cfw_theme);
+		DrawBottomSplash(str);
 		u32 bytesWritten = 0;
 		u32 currentWritten = 0;
 		u32 result = 0;
@@ -357,10 +372,12 @@ void CFW_ARM9Dumper(void) {
 			result = (fullSize == currentWritten);
 		}
 		if(result == 1){
-			DrawBottomSplash("/3ds/PastaCFW/UI/arm92OK.bin");
+			sprintf(str, "/3ds/PastaCFW/UI/%c/arm92OK.bin", cfw_theme);
+			DrawBottomSplash(str);
 		}
 		else{
-			DrawBottomSplash("/3ds/PastaCFW/UI/arm92E.bin");
+			sprintf(str, "/3ds/PastaCFW/UI/%c/arm2E.bin", cfw_theme);
+			DrawBottomSplash(str);
 		}
 		HidWaitForInput();
 	}
@@ -372,17 +389,19 @@ void CFW_Settings(void)
 	int settings_idx = 0;
 	bool autobootgui = false;
 	bool enable_firmlaunch = false;
-	char settings[3];
+	char settings[4];
 	if (FSFileOpen("/3ds/PastaCFW/system.txt")){
-		FSFileRead(settings, 3, 0);
+		FSFileRead(settings, 4, 0);
 		FSFileClose();
 		if (settings[1] == '2')autobootgui = true;
 		if (settings[2] == '1' || settings[2] == '3')enable_firmlaunch = true;
+		cfw_theme = settings[3];
 	}
 	while (true)
 	{
 		//DRAW GUI
-		DrawBottomSplash("/3ds/PastaCFW/UI/options.bin");
+		sprintf(str, "/3ds/PastaCFW/UI/%c/options.bin", cfw_theme);
+		DrawBottomSplash(str);
 		TOP_Current = 0;
 		drawInternalY = 0;
 		DrawDebug(1, 1, "");
@@ -398,6 +417,7 @@ void CFW_Settings(void)
 
 			       if (i == 0)DrawSettingsDebug(1, "%s Always boot the GUI         <%s>", beg, autobootgui ? "YES" : "NO ");
 			  else if (i == 1)DrawSettingsDebug(1, "%s Enable FirmLaunch           <%s>", beg, enable_firmlaunch ? "YES" : "NO ");
+			  else if (i == 2)DrawSettingsDebug(1, "%s Change theme                < %c >", beg, cfw_theme);
 			  DrawDebug(1, 1, "");
 		}
 
@@ -416,22 +436,44 @@ void CFW_Settings(void)
 		else if (pad_state & BUTTON_LEFT || pad_state & BUTTON_RIGHT)
 		{
 			if (settings_idx == 0) autobootgui = !autobootgui; //autobootgui settings
-			else if (settings_idx == 1) enable_firmlaunch = !enable_firmlaunch; //autobootgui settings
+			else if (settings_idx == 1) enable_firmlaunch = !enable_firmlaunch; //enable firmlaunch
+			else if (settings_idx == 2) //theme selection
+			{
+				if (pad_state & BUTTON_LEFT && cfw_theme != '0')
+				{
+					cfw_theme--;
+					sprintf(str, "/3ds/PastaCFW/UI/%c/menuTOP.bin", cfw_theme); //DRAW TOP SCREEN TO SEE THE NEW THEME
+					DrawTopSplash(str); //TOP SCREEN
+				}
+				else if (pad_state & BUTTON_RIGHT && cfw_theme != '9')
+				{
+					sprintf(str, "/3ds/PastaCFW/UI/%c/options.bin", cfw_theme + 1);
+					if (FSFileOpen(str))
+					{
+						cfw_theme++;
+						sprintf(str, "/3ds/PastaCFW/UI/%c/menuTOP.bin", cfw_theme);//DRAW TOP SCREEN TO SEE THE NEW THEME
+						DrawTopSplash(str); 
+					}
+				}
+			}
 		}
 		else if (pad_state & BUTTON_A)
 		{
 			//SAVE SETTINGS
 			FSFileOpen("/3ds/PastaCFW/system.txt");
-			char tobewritten[3];
+			char tobewritten[4];
 			tobewritten[0] = cfw_FWValue;
 			tobewritten[1] = autobootgui ? '2' : '1';
 			tobewritten[2] = enable_firmlaunch ? '1' : '0';
+			tobewritten[3] = cfw_theme;
 			cfw_enablefirmlaunch = enable_firmlaunch;
-			FSFileWrite(tobewritten, 3, 0);
+			FSFileWrite(tobewritten, 4, 0);
 			FSFileClose();
 			break;
 		}
-		else if (pad_state & BUTTON_B) break; //EXIT WITHOUT SAVING
+		else if (pad_state & BUTTON_B) {
+			cfw_theme = settings[3]; break;
+		} //EXIT WITHOUT SAVING
 	}
 }
 
@@ -471,17 +513,20 @@ int main(void) {
 			//DRAW GUI
 			if (menu_idx == MENU_ITEMS - 1)
 			{
-				DrawTopSplash("/3ds/PastaCFW/UI/creditsTOP.bin");
-				DrawBottomSplash("/3ds/PastaCFW/UI/menu6.bin");
+				sprintf(str, "/3ds/PastaCFW/UI/%c/menu6.bin", cfw_theme);
+				DrawBottomSplash(str);
+				sprintf(str, "/3ds/PastaCFW/UI/%c/creditsTOP.bin", cfw_theme);
+				DrawTopSplash(str);
 				TOP_Current = 0;
 			}
 			else
 			{
-				char path[] = "/3ds/PastaCFW/UI/menu0.bin";
-				path[21] = menu_idx + 48;
-				DrawBottomSplash(path); //BOTTOM SCREEN
+				sprintf(str, "/3ds/PastaCFW/UI/%c/menu0.bin", cfw_theme);
+				str[23] = menu_idx + 48;
+				DrawBottomSplash(str); //BOTTOM SCREEN
 				if (TOP_Current == 0){
-					DrawTopSplash("/3ds/PastaCFW/UI/menuTOP.bin"); //TOP SCREEN
+					sprintf(str, "/3ds/PastaCFW/UI/%c/menuTOP.bin", cfw_theme);
+					DrawTopSplash(str); //TOP SCREEN
 					TOP_Current = 1;
 				}
 			}
