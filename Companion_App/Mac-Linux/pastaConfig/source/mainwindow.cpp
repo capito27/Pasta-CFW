@@ -21,10 +21,11 @@
 #include <QString>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDir>
 #include <QFile>
 #include <QProcess>
 #include <QByteArray>
-#include <QDebug>
+#include <QDesktopServices>
 
 #ifdef WIN32
 #define p "\\"
@@ -33,7 +34,7 @@
 #endif
 
 QString folder="", pastadir;
-QByteArray cfg="000";
+QByteArray cfg="0000";
 QFile config;
 bool writable=0;
 
@@ -42,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    for(int i=0; i<10; i++)
+    {
+        ui->curTheme->addItem(QString::number(i));
+    }
     detectSD();
 }
 
@@ -99,16 +104,16 @@ void MainWindow::detectSD()
     ui->changepath->setText(folder);
 
     config.open(QIODevice::ReadWrite);
-    if(config.size()<3)
+    if(config.size()<4)
     {
         QMessageBox::warning(this, "Warning", "The configuration file is invalid and will be recreated.");
         config.close();
         config.remove();
         config.open(QIODevice::ReadWrite);
-        config.write("000");
+        config.write("0000");
     }
     else
-        cfg=config.read(3);
+        cfg=config.read(4);
     config.close();
 
     if(cfg[1]=='2')
@@ -116,6 +121,8 @@ void MainWindow::detectSD()
     if(cfg[2]=='2')
         ui->firmLaunch->setChecked(1);
     writable=1;
+
+    ui->curTheme->setCurrentIndex(QString(cfg.at(3)).toInt());
 
     switch(cfg[0])
     {
@@ -310,4 +317,44 @@ void MainWindow::on_installfl_clicked()
         QMessageBox::information(this, "", "firm.bin generated.");
     else
         QMessageBox::warning(this, "", "An error has occurred during the generation of firm.bin.");
+}
+
+void MainWindow::on_prevTheme_clicked()
+{
+#ifdef WIN32
+    QMessageBox::Abort(this, "", "Feature not supported on Windows.");
+    return;
+#endif
+
+    if(QFile("/usr/bin/convert").exists())
+    {
+        QProcess process;
+        process.start("rm /tmp/menu0.png /tmp/menuTOP.png /tmp/theme-preview.png");
+        while(process.waitForFinished(-1)){}
+        process.start("convert -size 240x320 -depth 8 bgr:\""+pastadir+"UI"+p+ui->curTheme->currentText()+p+"menu0.bin\" -size 320x240 -rotate 270 /tmp/menu0.png");
+        while(process.waitForFinished(-1)){}
+        process.start("convert -size 240x400 -depth 8 bgr:\""+pastadir+"UI"+p+ui->curTheme->currentText()+p+"menuTOP.bin\" -size 400x240 -rotate 270 /tmp/menuTOP.png");
+        while(process.waitForFinished(-1)){}
+        process.start("convert /tmp/menuTOP.png /tmp/menu0.png -gravity Center -background Black -append /tmp/theme-preview.png");
+        while(process.waitForFinished(-1)){}
+        QDesktopServices::openUrl(QUrl("/tmp/theme-preview.png"));
+    }
+    else
+        QMessageBox::warning(this, "Preview", "Cannot find \"/usr/bin/convert\".\nIs ImageMagick installed?");
+}
+void MainWindow::on_addThemes_clicked()
+{
+    QDesktopServices::openUrl(QUrl(pastadir+p+"UI"));
+}
+
+void MainWindow::on_curTheme_activated(int index)
+{
+    if(QDir(pastadir+"UI"+p+QString::number(index)).exists())
+        apply(3, index+48);
+    else
+    {
+        QMessageBox::warning(this, "Theme "+QString::number(index), "This theme does not exist. Falling back to the previous one.");
+        for(int i=index; QDir(pastadir+"UI"+p+QString::number(i)).exists()==0||i==0; i--)
+            ui->curTheme->setCurrentIndex(i-1);
+    }
 }

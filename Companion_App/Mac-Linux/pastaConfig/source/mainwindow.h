@@ -35,6 +35,7 @@ public:
 
 private slots:
     void detectSD();
+
     void apply(int offset, char state);
 
     void on_noAB_toggled(bool checked);
@@ -44,6 +45,12 @@ private slots:
     void on_firmLaunch_toggled(bool checked);
 
     void on_installfl_clicked();
+
+    void on_prevTheme_clicked();
+
+    void on_addThemes_clicked();
+
+    void on_curTheme_activated(int index);
 
 private:
     Ui::MainWindow *ui;
