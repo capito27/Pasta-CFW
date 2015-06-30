@@ -3,7 +3,7 @@
 echo NOTE: You need to build the companion apps before using this script.
 echo The folder Pasta-Release will be erased, and PastaCFW.zip too.
 echo .
-echo IMPORTANT: The executable bit of pastaConfig cannot be set in Windows. Please use the sh script if possible.
+echo IMPORTANT: The executable bit of pastaConfig and sh scripts cannot be set in Windows. Please use the sh script if possible.
 
 cd Brahma_Fork
 ::make clean
