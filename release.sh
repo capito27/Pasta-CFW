@@ -27,6 +27,7 @@ cp CFW_loader/gfx/*.* Pasta-Release/3ds/PastaCFW/UI/0/
 rm Pasta-Release/3ds/PastaCFW/UI/0/*.png
 cp Companion_App/Mac-Linux/pastaConfig/builds/GNU-Linux\ 32\ bit/pastaConfig Pasta-Release/pastaConfig-32bit
 cp Companion_App/Mac-Linux/pastaConfig/builds/GNU-Linux\ 64\ bit/pastaConfig Pasta-Release/pastaConfig-64bit
+chmod +x Pasta-Release/pastaConfig-32bit Pasta-Release/pastaConfig-64bit
 cp Companion_App/Windows/PastaCFW\ Configurator/PastaCFW\ Configurator/bin/Debug/PastaCFW\ Configurator.exe Pasta-Release/
 rm PastaCFW.zip
 (cd Pasta-Release && zip -r -9 ../PastaCFW.zip .)
