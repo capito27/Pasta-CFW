@@ -6,8 +6,8 @@ echo .
 echo IMPORTANT: The executable bit of pastaConfig and sh scripts cannot be set in Windows. Please use the sh script if possible.
 
 cd Brahma_Fork
-::make clean
-::make
+make clean
+make
 if not exist PastaCFW.smdh (
 	cd..
 	echo "ERROR: Cannot find PastaCFW.smdh."
@@ -20,8 +20,8 @@ if not exist PastaCFW.3dsx (
 )
 
 cd ..\CFW_loader
-::make clean
-::make
+make clean
+make
 if not exist loader.bin (
 	echo "ERROR: Cannot find loader.bin."
 	GOTO:EOF
