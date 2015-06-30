@@ -1,4 +1,10 @@
 #!/bin/sh
+if [ $# -eq 0 ]; then
+	delay="100"
+else
+	delay=$1
+fi
+
 if [ ! -f template.png ]; then
 	curl -O "http://www.nintendo.com/images/page/3ds/what-is-3ds/hero-new-3ds.png"
 	mv hero-new-3ds.png template.png
@@ -51,14 +57,14 @@ else
 fi
 
 convert Preview/menu0.png Preview/menu6.png Preview/nand0.png +append Preview/menuprev-aio.png
-convert -delay 100 -loop 0 menu?.png Preview/menuprev-1.gif
-convert -delay 100 -loop 0 Preview/menu?.png Preview/menuprev-2.gif
-convert -delay 100 -loop 0 nand?.png nand2OK.png nand2E.png Preview/nand-0.gif
-convert -delay 100 -loop 0 Preview/nand?.png Preview/nand2OK.png Preview/nand2E.png Preview/nand-1.gif
-convert -delay 100 -loop 0 arm9?.png arm92OK.png arm92E.png Preview/arm9-0.gif
-convert -delay 100 -loop 0 Preview/arm9?.png Preview/arm92OK.png Preview/arm92E.png Preview/arm9-1.gif
-convert -delay 100 -loop 0 menu?.png options.png nand?.png nand2OK.png nand2E.png arm9?.png arm92OK.png arm92E.png Preview/menuprev-aio-0.gif
-convert -delay 100 -loop 0 Preview/menu?.png Preview/options.png Preview/nand?.png Preview/nand2OK.png Preview/nand2E.png Preview/arm9?.png Preview/arm92OK.png Preview/arm92E.png Preview/menuprev-aio-1.gif
+convert -delay $delay -loop 0 menu?.png Preview/menuprev-1.gif
+convert -delay $delay -loop 0 Preview/menu?.png Preview/menuprev-2.gif
+convert -delay $delay -loop 0 nand?.png nand2OK.png nand2E.png Preview/nand-0.gif
+convert -delay $delay -loop 0 Preview/nand?.png Preview/nand2OK.png Preview/nand2E.png Preview/nand-1.gif
+convert -delay $delay -loop 0 arm9?.png arm92OK.png arm92E.png Preview/arm9-0.gif
+convert -delay $delay -loop 0 Preview/arm9?.png Preview/arm92OK.png Preview/arm92E.png Preview/arm9-1.gif
+convert -delay $delay -loop 0 menu?.png options.png nand?.png nand2OK.png nand2E.png arm9?.png arm92OK.png arm92E.png Preview/menuprev-aio-0.gif
+convert -delay $delay -loop 0 Preview/menu?.png Preview/options.png Preview/nand?.png Preview/nand2OK.png Preview/nand2E.png Preview/arm9?.png Preview/arm92OK.png Preview/arm92E.png Preview/menuprev-aio-1.gif
 
 cd Preview
 
