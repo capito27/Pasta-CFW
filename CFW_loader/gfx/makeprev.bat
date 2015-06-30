@@ -1,7 +1,10 @@
 @echo off
 
+set delay=%1
+if "%delay%" == "" set delay=100
+
 if not exist template.png (
-	bitsadmin /transfer "3DS-Template" http://www.nintendo.com/images/page/3ds/what-is-3ds/hero-new-3ds.png %cd%\template.png
+	bitsadmin /transfer "3DS-Template" /download /priority high http://www.nintendo.com/images/page/3ds/what-is-3ds/hero-new-3ds.png %cd%\template.png
 )
 
 mkdir Preview\Images\AIO Preview\Images\Menu Preview\Images\NAND-dump Preview\Images\ARM9-dump Preview\Animations\AIO Preview\Animations\Menu Preview\Animations\NAND-dump Preview\Animations\ARM9-dump
@@ -38,14 +41,14 @@ if exist creditsTOP.png (
 )
 
 convert Preview\menu0.png Preview\menu6.png Preview\nand0.png +append Preview\menuprev-aio.png
-convert -delay 100 -loop 0 menu0.png menu1.png menu2.png menu3.png menu4.png menu5.png menu6.png Preview\menuprev-1.gif
-convert -delay 100 -loop 0 Preview\menu0.png Preview\menu1.png Preview\menu2.png Preview\menu3.png Preview\menu4.png Preview\menu5.png Preview\menu6.png Preview\menuprev-2.gif
-convert -delay 100 -loop 0 nand0.png nand1.png nand2OK.png nand2E.png Preview\nand-0.gif
-convert -delay 100 -loop 0 Preview\nand0.png Preview\nand1.png Preview\nand2OK.png Preview\nand2E.png Preview\nand-1.gif
-convert -delay 100 -loop 0 arm90.png arm91.png arm92OK.png arm92E.png Preview\arm9-0.gif
-convert -delay 100 -loop 0 Preview\arm90.png Preview\arm91.png Preview\arm92OK.png Preview\arm92E.png Preview\arm9-1.gif
-convert -delay 100 -loop 0 menu0.png menu1.png menu2.png menu3.png menu4.png menu5.png menu6.png options.png nand0.png nand1.png nand2OK.png nand2E.png arm90.png arm91.png arm92OK.png arm92E.png Preview\menuprev-aio-0.gif
-convert -delay 100 -loop 0 Preview\menu0.png Preview\menu1.png Preview\menu2.png Preview\menu3.png Preview\menu4.png Preview\menu5.png Preview\menu6.png Preview\options.png Preview\nand0.png Preview\nand1.png Preview\nand2OK.png Preview\nand2E.png Preview\arm90.png Preview\arm91.png Preview\arm92OK.png Preview\arm92E.png Preview\menuprev-aio-1.gif
+convert -delay %delay% -loop 0 menu0.png menu1.png menu2.png menu3.png menu4.png menu5.png menu6.png Preview\menuprev-1.gif
+convert -delay %delay% -loop 0 Preview\menu0.png Preview\menu1.png Preview\menu2.png Preview\menu3.png Preview\menu4.png Preview\menu5.png Preview\menu6.png Preview\menuprev-2.gif
+convert -delay %delay% -loop 0 nand0.png nand1.png nand2OK.png nand2E.png Preview\nand-0.gif
+convert -delay %delay% -loop 0 Preview\nand0.png Preview\nand1.png Preview\nand2OK.png Preview\nand2E.png Preview\nand-1.gif
+convert -delay %delay% -loop 0 arm90.png arm91.png arm92OK.png arm92E.png Preview\arm9-0.gif
+convert -delay %delay% -loop 0 Preview\arm90.png Preview\arm91.png Preview\arm92OK.png Preview\arm92E.png Preview\arm9-1.gif
+convert -delay %delay% -loop 0 menu0.png menu1.png menu2.png menu3.png menu4.png menu5.png menu6.png options.png nand0.png nand1.png nand2OK.png nand2E.png arm90.png arm91.png arm92OK.png arm92E.png Preview\menuprev-aio-0.gif
+convert -delay %delay% -loop 0 Preview\menu0.png Preview\menu1.png Preview\menu2.png Preview\menu3.png Preview\menu4.png Preview\menu5.png Preview\menu6.png Preview\options.png Preview\nand0.png Preview\nand1.png Preview\nand2OK.png Preview\nand2E.png Preview\arm90.png Preview\arm91.png Preview\arm92OK.png Preview\arm92E.png Preview\menuprev-aio-1.gif
 
 cd Preview
 
