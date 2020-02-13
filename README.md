@@ -1,87 +1,89 @@
 # Pasta-CFW
 
+**IMPORTANT** This custom firmware is now severely outdated and abandonned, feel free to have a look at the repo for historic purposes, but please, use the modern (and usable) [Luma3ds CFW](https://github.com/AuroraWright/Luma3DS)!
+
 [![Join the chat at https://gitter.im/capito27/Pasta-CFW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/capito27/Pasta-CFW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Version 1.3 beta
 
--Moved the GUI code to arm9<br />
--UI completely redesigned<br />
--Added config app inside the CFW_Launcher: you can edit settings without the companion, directly on your 3DS!<br />
--Added Nand Dumper!<br />
--Added ARM9 dumper interface<br />
--Added FIRMLAUNCH!<br />
--Added FIRM downloader inside PC Companion App (windows only, for now)<br />
--A lot of code cleanup<br />
+- Moved the GUI code to arm9<br />
+- UI completely redesigned<br />
+- Added config app inside the CFW_Launcher: you can edit settings without the companion, directly on your 3DS!<br />
+- Added Nand Dumper!<br />
+- Added ARM9 dumper interface<br />
+- Added FIRMLAUNCH!<br />
+- Added FIRM downloader inside PC Companion App (windows only, for now)<br />
+- A lot of code cleanup<br />
 
-##Version 1.2.1
+## Version 1.2.1
 
-###Changelog :
--Fixed 1.2 crashes
+### Changelog :
+- Fixed 1.2 crashes
 
-###Bugs :
+### Bugs :
 Please report any bugs you might experience.
 
-##Version 1.2
+## Version 1.2
 
-###Changelog :
--Added an ARM9 ram dumper, for debug purposes<br />
--Added support to PC Companion App<br />
--Changed the system.txt handling<br />
--Now to autoboot the gui, you don't have to create a bootmenu.txt file. You just have to use the PC Companion App.
+### Changelog :
+- Added an ARM9 ram dumper, for debug purposes<br />
+- Added support to PC Companion App<br />
+- Changed the system.txt handling<br />
+- Now to autoboot the gui, you don't have to create a bootmenu.txt file. You just have to use the PC Companion App.
 
-###Bugs :
+### Bugs :
 Please report any bugs you might experience.
 
-##Version 1.1.1
+## Version 1.1.1
 
-###Changelog :
--fixed 6.X and 7.X offsets
+### Changelog :
+- fixed 6.X and 7.X offsets
 
-###Bugs :
+### Bugs :
 Please report any bugs you might experience.
 
-##Version 1.1
+## Version 1.1
 
-###Changelog :
--Fixed crazy CREDITS button! (thanks to FrozenFish24)<br />
--Added button animations (had to do a lot of optimization in order to fit the required images)<br />
--Now you can force the UI to boot everytime! Just create an empty file named bootmenu.txt inside sdmc/3ds/PastaCFW/<br />
--New icon!
+### Changelog :
+- Fixed crazy CREDITS button! (thanks to FrozenFish24)<br />
+- Added button animations (had to do a lot of optimization in order to fit the required images)<br />
+- Now you can force the UI to boot everytime! Just create an empty file named bootmenu.txt inside sdmc/3ds/PastaCFW/<br />
+- New icon!
 
-###Bugs :
+### Bugs :
 Please report any bugs you might experience.
 
-##Version 1.0
+## Version 1.0
 
-###Changelog :
--minor UI fixes
+### Changelog :
+- minor UI fixes
 
-###Bugs :
+### Bugs :
 Please report any bugs you might experience.
 
-##Version 1.0 beta 3
+## Version 1.0 beta 3
 
-###Changelog :
--fixed 8.X support
+### Changelog :
+- fixed 8.X support
 
-###Bugs :
+### Bugs :
 Please report any bugs you might experience.
 
-##Version 1.0 beta 2
+## Version 1.0 beta 2
 
-###Changelog :
--fixed black screen issue
+### Changelog :
+- fixed black screen issue
 
-###Bugs :
+### Bugs :
 Please report any bugs you might experience.
 
-##Version 1.0 beta
+## Version 1.0 beta
 
-###Changelog :
--new gui<br />
--fixed firmware detection bug<br />
--more offsets (now 5.X, 6.X and 7.X are supported)<br />
--credits are added again
+### Changelog :
+- new gui<br />
+- fixed firmware detection bug<br />
+- more offsets (now 5.X, 6.X and 7.X are supported)<br />
+- credits are added again
 
-###Bugs :
+### Bugs :
 Please report any bugs you might experience.
